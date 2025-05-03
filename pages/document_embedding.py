@@ -1,9 +1,9 @@
 import streamlit as st
 import os
-from pages.backend import doc_embedding
+from pages.backend import rag_functions
 
 
-st.title("Document embedding")
+st.title("Document Embedding")
 st.markdown("This page is used to upload the documents as the custom knowledge for the chatbot.")
 
 
@@ -41,8 +41,8 @@ with st.form("document_input"):
     with row_2[1]:
         # List the existing vector stores     
         new_vs_name = st.text_input(
-            "New Vector Store Name", placeholder="new vector store name",
-            help="If choose <New> in the dropdown / multiselect box, name the new vector store."
+            "New Vector Store Name", value="new_vector_store_name",
+            help="If choose <New> in the dropdown / multiselect box, name the new vector store. Otherwise, fill in the existing vector store to merge."
         )
 
     save_button = st.form_submit_button("Save vector store")
@@ -50,26 +50,25 @@ with st.form("document_input"):
 if save_button:
     # Read the uploaded file
     if document.name[-4:] == ".pdf":
-        document = doc_embedding.read_pdf(document)
+        document = rag_functions.read_pdf(document)
     elif document.name[-4:] == ".txt":
-        document = doc_embedding.read_txt(document)
+        document = rag_functions.read_txt(document)
     else:
-        st.markdown("Check if the uploaded file is .pdf or .txt")
+        st.error("Check if the uploaded file is .pdf or .txt")
 
     # Split document
-    split = doc_embedding.split_doc(document, chunk_size, chunk_overlap)
+    split = rag_functions.split_doc(document, chunk_size, chunk_overlap)
 
     # Check whether to create new vector store
     create_new_vs = None
-    if existing_vector_store == "<New>" and new_vs_name is not None:
+    if existing_vector_store == "<New>" and new_vs_name != "":
         create_new_vs = True
-    elif existing_vector_store != "<New>" and new_vs_name is None:
+    elif existing_vector_store != "<New>" and new_vs_name != "":
         create_new_vs = False
     else:
-        st.markdown("Check the 'Vector Store to Merge the Knowledge' and 'New Vector Store Name'")
+        st.error("Check the 'Vector Store to Merge the Knowledge' and 'New Vector Store Name'")
     
     # Embeddings and storing
-    doc_embedding.embedding_storing(
+    rag_functions.embedding_storing(
         instruct_embeddings, split, create_new_vs, existing_vector_store, new_vs_name
     )
-
