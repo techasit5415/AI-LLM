@@ -116,7 +116,7 @@ if not errorlevel 1 (
     echo.
     echo � พบ llama-cpp-python ติดตั้งแล้ว
     set /p reinstall="ต้องการติดตั้งใหม่หรือไม่? (y/n): "
-    if /i not "%reinstall%"=="y" (
+    if /i "%reinstall%"=="n" (
         echo ⏭️ ข้ามการติดตั้ง llama-cpp-python
         goto :install_other_packages
     )

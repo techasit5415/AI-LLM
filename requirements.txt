@@ -8,6 +8,10 @@ llama-cpp-python==0.2.90
 faiss-cpu==1.7.4
 sentence-transformers==2.2.2
 
+huggingface-hub>=0.20.3
+langchain-community>=0.0.10
+sentence-transformers>=2.2.2
+
 # Text processing and utilities
 pypdf==3.17.4
 python-docx==1.1.0

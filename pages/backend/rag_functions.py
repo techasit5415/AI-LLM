@@ -55,7 +55,7 @@ def embedding_storing(model_name, split, create_new_vs, existing_vector_store, n
             instructor_embeddings = None
 
         # Implement embeddings
-        db = FAISS.from_documents(split, instructor_embeddings)
+        db = FAISS.from_documents(split, instructor_embeddings.embed_query)
 
         if create_new_vs == True:
             # Save db
@@ -167,7 +167,7 @@ def prepare_rag_llm(
         print("Trying to load FAISS vector store with allow_dangerous_deserialization=True")
         loaded_db = FAISS.load_local(
             f"vector store/{vector_store_list}", 
-            instructor_embeddings, 
+            instructor_embeddings.embed_query, 
             allow_dangerous_deserialization=True
         )
         print("Successfully loaded FAISS vector store with new API")
@@ -177,7 +177,7 @@ def prepare_rag_llm(
         print("Trying to load FAISS vector store with old API")
         loaded_db = FAISS.load_local(
             f"vector store/{vector_store_list}", 
-            instructor_embeddings
+            instructor_embeddings.embed_query
         )
         print("Successfully loaded FAISS vector store with old API")
 
@@ -233,4 +233,3 @@ def generate_answer(question, conversation):
             doc_source = [f"Error details: {str(e)}"]
 
     return answer, doc_source
-    

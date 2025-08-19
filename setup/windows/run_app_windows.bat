@@ -42,7 +42,7 @@ echo 📱 เปิด browser แล้วไปที่: http://localhost:850
 echo 🛑 กด Ctrl+C เพื่อหยุดการทำงาน
 echo.
 
-streamlit run rag_chatbot.py
+streamlit run rag_chatbot_windows.py
 
 echo.
 echo 🏁 ปิด LLM-RAG Chatbot แล้ว
