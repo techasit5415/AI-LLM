@@ -38,23 +38,15 @@ REM ติดตั้ง PyTorch ก่อน (เพื่อหลีกเ�
 echo 🔥 ติดตั้ง PyTorch สำหรับ CUDA...
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
-REM ติดตั้ง packages อื่นๆ
+REM ติดตั้ง packages จาก requirements.txt
 echo 📦 ติดตั้ง packages จาก requirements.txt...
-pip install streamlit==1.29.0
-pip install langchain==0.1.0 langchain-community==0.0.10
-pip install faiss-cpu==1.7.4
-pip install sentence-transformers==2.2.2
-pip install pypdf==3.17.4 python-docx==1.1.0
-pip install tiktoken==0.5.2
-pip install numpy==1.24.3 pandas==2.0.3
-pip install requests==2.31.0 beautifulsoup4==4.12.2 lxml==4.9.3
-pip install Pillow==10.1.0 python-dotenv==1.0.0
+pip install -r requirements.txt
 
 REM ติดตั้ง llama-cpp-python พร้อม CUDA support
 echo 🦙 ติดตั้ง llama-cpp-python พร้อม CUDA support...
 pip uninstall -y llama-cpp-python 2>nul
 set CMAKE_ARGS=-DLLAMA_CUBLAS=on
-pip install llama-cpp-python==0.2.90 --no-cache-dir
+pip install llama-cpp-python>=0.2.90 --no-cache-dir
 
 echo ✅ Python environment setup เสร็จสิ้น!
 echo.
