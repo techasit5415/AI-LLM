@@ -5,6 +5,7 @@ REM Run LLM-RAG Application on Windows
 echo 🚀 เริ่มต้น LLM-RAG Chatbot บน Windows...
 
 REM ตรวจสอบว่าอยู่ใน project directory
+cd /d "%~dp0..\.."
 if not exist "rag_chatbot.py" (
     echo ❌ ไม่พบไฟล์ rag_chatbot.py
     echo    กรุณา cd เข้าไปใน LLM-RAG directory ก่อน
@@ -24,13 +25,12 @@ REM เปิดใช้งาน virtual environment
 echo 🔄 เปิดใช้งาน virtual environment...
 call llm_rag_env\Scripts\activate.bat
 
-REM ตรวจสอบ LLM model
-set MODEL_PATH=C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf
+REM ตรวจสอบ LLM model - ใช้ path ที่ตั้งค่าไว้ใน app
+set MODEL_PATH=%USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf
 if not exist "%MODEL_PATH%" (
-    echo ❌ ไม่พบ LLM model ที่: %MODEL_PATH%
-    echo    กรุณารัน download_models_windows.bat ก่อน
-    pause
-    exit /b 1
+    echo ⚠️ ไม่พบ LLM model ที่: %MODEL_PATH%
+    echo    แต่จะดำเนินการต่อ (model path สามารถตั้งค่าในแอปได้)
+    echo.
 )
 
 REM ตั้งค่า environment variables
@@ -42,7 +42,7 @@ echo 📱 เปิด browser แล้วไปที่: http://localhost:850
 echo 🛑 กด Ctrl+C เพื่อหยุดการทำงาน
 echo.
 
-streamlit run rag_chatbot_windows.py
+streamlit run rag_chatbot.py
 
 echo.
 echo 🏁 ปิด LLM-RAG Chatbot แล้ว

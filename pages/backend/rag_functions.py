@@ -5,7 +5,6 @@ from pypdf import PdfReader
 from langchain_community.llms import LlamaCpp
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import OpenAIEmbeddings, SentenceTransformerEmbeddings
-from langchain.vectorstores import FAISS
 from langchain_community.vectorstores import FAISS
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferWindowMemory
@@ -29,10 +28,13 @@ def read_txt(file):
 
 
 def split_doc(document, chunk_size, chunk_overlap):
+    # จำกัด chunk_size ไม่ให้เกิน 500 tokens เพื่อป้องกันปัญหา context window
+    max_chunk_size = min(chunk_size, 500)
+    max_chunk_overlap = min(chunk_overlap, max_chunk_size // 4)
 
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap
+        chunk_size=max_chunk_size,
+        chunk_overlap=max_chunk_overlap
     )
     split = splitter.split_text(document)
     split = splitter.create_documents(split)
@@ -96,7 +98,7 @@ def embedding_storing(model_name, split, create_new_vs, existing_vector_store, n
 
 
 def prepare_rag_llm(
-    token, llm_model, instruct_embeddings, vector_store_list, temperature, max_length
+    token, llm_model, instruct_embeddings, vector_store_list, temperature, max_length, context_window=8192, retrieval_k=3
 ):
     # Load embeddings instructor - ใช้โมเดล local และ GPU
     try:
@@ -194,12 +196,19 @@ def prepare_rag_llm(
         )
         print("Successfully loaded FAISS vector store with old API")
 
+    # ตรวจสอบและปรับ context window
+    max_context = min(context_window, 16384)  # จำกัดไม่เกิน 16K tokens
+    if max_context < 4096:
+        max_context = 4096  # ขั้นต่ำ 4K tokens
+    
+    print(f"Setting context window to: {max_context} tokens")
+
     # Load LLM (LlamaCpp)
     llm = LlamaCpp(
         model_path=llm_model,  # path to .gguf file
         temperature=temperature,
         max_tokens=max_length,
-        n_ctx=4096,  # ปรับตามที่โมเดลรองรับ
+        n_ctx=max_context,  # ใช้ค่า context window ที่ปรับแล้ว
         n_gpu_layers=-1,  # ใช้ GPU ทั้งหมด (ทุก layer)
         n_batch=512,      # เพิ่ม batch size สำหรับ GPU
         verbose=True,     # แสดง log เพื่อดูการใช้ GPU
@@ -212,11 +221,14 @@ def prepare_rag_llm(
         return_messages=True,
     )
 
-    # Create the chatbot
+    # Create the chatbot with limited retrieval
     qa_conversation = ConversationalRetrievalChain.from_llm(
         llm=llm,
         chain_type="stuff",
-        retriever=loaded_db.as_retriever(),
+        retriever=loaded_db.as_retriever(
+            search_type="similarity",
+            search_kwargs={"k": retrieval_k}  # ใช้ค่าที่ผู้ใช้กำหนด
+        ),
         return_source_documents=True,
         memory=memory,
     )
@@ -232,12 +244,26 @@ def generate_answer(question, conversation):
         doc_source = ["no source"]
     else:
         try:
+            # จำกัดความยาวของคำถาม
+            if len(question) > 1000:
+                question = question[:1000] + "..."
+                
             response = conversation({"question": question})
             answer = response.get("answer", "").split("Helpful Answer:")[-1].strip()
             if not answer:
                 answer = response.get("answer", "ไม่สามารถตอบคำถามได้")
             explanation = response.get("source_documents", [])
             doc_source = [d.page_content for d in explanation]
+        except ValueError as e:
+            if "exceed context window" in str(e):
+                answer = "คำถามยาวเกินไป กรุณาลองใช้คำถามที่สั้นลง หรือแบ่งเป็นหลายคำถาม"
+                doc_source = ["Context window exceeded - try shorter questions"]
+            else:
+                import traceback
+                error_details = traceback.format_exc()
+                print(f"ValueError in conversation: {error_details}")
+                answer = f"เกิดข้อผิดพลาด: {str(e)[:200]}..."
+                doc_source = [f"Error details: {str(e)}"]
         except Exception as e:
             import traceback
             error_details = traceback.format_exc()
