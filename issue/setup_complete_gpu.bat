@@ -136,11 +136,11 @@ if "%GPU_SUPPORT%"=="true" (
     
     set /p gpu_choice="ต้องการติดตั้งแบบ GPU หรือไม่? (y/n): "
     if /i "%gpu_choice%"=="y" (
-        set CMAKE_ARGS=-DLLAMA_CUBLAS=on
-        set FORCE_CMAKE=1
+        echo 🔍 ตรวจสอบ CUDA version...
+        nvcc --version | findstr "release"
         
-        echo ⬇️ กำลังติดตั้งแบบ GPU... (อาจใช้เวลานาน)
-        pip install llama-cpp-python==0.2.90 --no-cache-dir --force-reinstall
+        echo ⬇️ กำลังติดตั้งแบบ GPU สำหรับ CUDA 12.1...
+        pip install llama-cpp-python --index-url https://abetlen.github.io/llama-cpp-python/whl/cu121 --no-cache-dir --force-reinstall
         
         if errorlevel 1 (
             echo.
@@ -154,7 +154,7 @@ if "%GPU_SUPPORT%"=="true" (
             set /p fallback="ต้องการติดตั้งแบบ CPU แทนหรือไม่? (y/n): "
             if /i "%fallback%"=="y" (
                 echo 💻 กำลังติดตั้งแบบ CPU...
-                pip install llama-cpp-python==0.2.90 --no-cache-dir
+                pip install llama-cpp-python --no-cache-dir
                 if not errorlevel 1 (
                     echo ✅ ติดตั้งแบบ CPU สำเร็จ!
                 ) else (
@@ -170,7 +170,7 @@ if "%GPU_SUPPORT%"=="true" (
         )
     ) else (
         echo 💻 ติดตั้งแบบ CPU ตามที่เลือก...
-        pip install llama-cpp-python==0.2.90 --no-cache-dir
+        pip install llama-cpp-python --no-cache-dir
         if not errorlevel 1 (
             echo ✅ ติดตั้งแบบ CPU สำเร็จ!
         ) else (
@@ -179,7 +179,7 @@ if "%GPU_SUPPORT%"=="true" (
     )
 ) else (
     echo 💻 ติดตั้งแบบ CPU-only...
-    pip install llama-cpp-python==0.2.90 --no-cache-dir
+    pip install llama-cpp-python --no-cache-dir
     if not errorlevel 1 (
         echo ✅ ติดตั้งแบบ CPU สำเร็จ!
     ) else (
@@ -238,14 +238,14 @@ echo.
 echo 1️⃣ ตรวจสอบ Visual Studio Build Tools:
 echo    winget install Microsoft.VisualStudio.2022.BuildTools
 echo.
-echo 2️⃣ ลองใช้ pre-compiled wheel:
-echo    pip install --pre llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cu124
+echo 2️⃣ ลองใช้ pre-compiled wheel สำหรับ CUDA 12.1:
+echo    pip install llama-cpp-python --index-url https://abetlen.github.io/llama-cpp-python/whl/cu121 --no-cache-dir
 echo.
 echo 3️⃣ รันสคริปต์วินิจฉัย:
 echo    .\issue\diagnose_llama_cpp.bat
 echo.
 echo 4️⃣ ติดตั้งแบบ CPU-only:
-echo    pip install llama-cpp-python==0.2.90 --no-cache-dir
+echo    pip install llama-cpp-python --no-cache-dir
 echo.
 echo 5️⃣ ดู troubleshooting guide:
 echo    .\issue\LLAMA_CPP_PYTHON_TROUBLESHOOTING.md
