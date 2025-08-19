@@ -19,8 +19,8 @@ with st.expander("Setting the LLM"):
         with row_1[2]:
             instruct_embeddings = st.text_input("Instruct Embeddings", value="hkunlp/instructor-base")
 
-            # Static path สำหรับ embedding model (แก้ไขตาม path ที่คุณมี)
-            local_embed_path = "/home/techasit/Documents/AI/embedding-models/all-MiniLM-L6-v2"
+            # Static path สำหรับ embedding model (ใช้ home directory ของ user ปัจจุบัน)
+            local_embed_path = os.path.expanduser("~/Documents/AI/embedding-models/all-MiniLM-L6-v2")
             if os.path.exists(local_embed_path):
                 instruct_embeddings = local_embed_path
             else:
@@ -42,8 +42,8 @@ with st.expander("Setting the LLM"):
         with row_2[2]:
             max_length = st.number_input("Max Length", value=512, step=1)
 
-        # Static path สำหรับ LLM .gguf (แก้ไขตาม path ที่คุณมี)
-        llm_model = "/home/techasit/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf"
+        # Static path สำหรับ LLM .gguf (ใช้ home directory ของ user ปัจจุบัน)
+        llm_model = os.path.expanduser("~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf")
 
         token = ""  # ไม่ต้องใช้ HuggingFace Token
         create_chatbot = st.form_submit_button("Create chatbot")
