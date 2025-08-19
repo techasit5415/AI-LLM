@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 REM Model Download Script for Windows
 REM ดาวน์โหลด LLM models และ embedding models บน Windows
 

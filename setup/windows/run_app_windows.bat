@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 REM Run LLM-RAG Application on Windows
 
 echo 🚀 เริ่มต้น LLM-RAG Chatbot บน Windows...

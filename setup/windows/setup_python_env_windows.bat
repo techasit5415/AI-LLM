@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 REM Python Environment Setup Script for Windows
 REM รันหลังจากติดตั้ง system dependencies แล้ว
 
