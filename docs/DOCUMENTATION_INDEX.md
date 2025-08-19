@@ -3,14 +3,21 @@
 
 ### 📚 เอกสารหลัก
 
-#### 🏠 [README.md](README.md)
+#### 🏠 [README.md](../README.md)
 เอกสารหลักของโปรเจค รวม:
 - ภาพรวมระบบ
+- โครงสร้างโปรเจคใหม่
 - การติดตั้งแบบย่อ
 - วิธีใช้งานพื้นฐาน
-- Performance benchmarks
+- Performance benchmarks (GPU: 25-35+ tokens/sec)
 
-#### 🛠️ [setup/README.md](setup/README.md)
+#### ⚡ [QUICK_REFERENCE.md](QUICK_REFERENCE.md)
+คู่มืออ้างอิงแบบด่วน:
+- คำสั่งสำคัญ
+- File paths และ structure
+- Troubleshooting ด่วน
+
+#### 🛠️ [setup/README.md](../setup/README.md)
 คู่มือติดตั้งแบบครบถ้วน:
 - โครงสร้างโฟลเดอร์ setup
 - คำสั่งติดตั้งสำหรับ Linux และ Windows
@@ -56,51 +63,69 @@
 
 ### 🔧 Troubleshooting Documentation
 
-#### 🚨 [LLAMA_CPP_PYTHON_TROUBLESHOOTING.md](LLAMA_CPP_PYTHON_TROUBLESHOOTING.md)
+#### 🚨 [troubleshooting/LLAMA_CPP_PYTHON_TROUBLESHOOTING.md](troubleshooting/LLAMA_CPP_PYTHON_TROUBLESHOOTING.md)
 คู่มือแก้ปัญหา llama-cpp-python แบบละเอียด:
 - ปัญหาที่พบบ่อยและสาเหตุ
 - วิธีแก้ไขแบบ step-by-step (4 methods)
 - การทดสอบและ verification
-- Performance comparison
+- Performance comparison (31.35 vs 11 tokens/sec)
 - Alternative solutions
 
-#### 🔧 [FAISS_FIX_GUIDE.md](FAISS_FIX_GUIDE.md)
-คู่มือแก้ปัญหา FAISS compatibility:
-- แก้ไขปัญหา `allow_dangerous_deserialization`
-- การอัพเดต packages
-- ขั้นตอนการทดสอบ
-- Package versions ที่แนะนำ
+#### 🎯 [troubleshooting/GPU_SETUP_UPDATES.md](troubleshooting/GPU_SETUP_UPDATES.md)
+สรุปการอัปเดต GPU setup script:
+- วิธีการติดตั้งที่พิสูจน์แล้ว (direct wheel method)
+- การปรับปรุง error handling
+- Performance metrics ที่ถูกต้อง
+- Validated outcomes
+
+---
+
+### 🧪 Testing & Validation Scripts
+
+#### 📊 Testing Scripts (scripts/testing/)
+
+| Script | Description | When to Use |
+|--------|-------------|-------------|
+| **`test_gpu.py`** | GPU performance testing | ทดสอบ performance และ GPU utilization |
+| **`validate_gpu_setup.py`** | ตรวจสอบการติดตั้งครบถ้วน | หลังติดตั้งเสร็จ validate ทุกอย่าง |
+| **`check_llama_cuda.py`** | CUDA compatibility check | ตรวจสอบ CUDA support |
+
+#### 🛠️ Utility Scripts (scripts/utilities/)
+
+| Script | Description | When to Use |
+|--------|-------------|-------------|
+| **`build_faiss_index.py`** | สร้าง vector stores ใหม่ | เมื่อต้องการ rebuild หรือเพิ่มข้อมูล |
+| **`fix_faiss_compatibility.py`** | แก้ไข FAISS API compatibility | เมื่อมี FAISS import errors |
 
 ---
 
 ### 🤖 Installation Scripts
 
-#### 🎯 Windows Scripts
+#### 🎯 Main Installation Scripts (issue/)
 
 | Script | Description | When to Use |
 |--------|-------------|-------------|
-| **`install_complete_detailed.bat`** | ติดตั้งครบชุดแบบละเอียด | เครื่องใหม่ที่ต้องการติดตั้งทุกอย่าง |
+| **`setup_complete_gpu.bat`** | GPU setup ครบชุด (updated) | ติดตั้ง GPU support แบบ automated |
+| **`install_menu.bat`** | เมนูติดตั้งแบบโต้ตอบ | เลือกการติดตั้งแบบ interactive |
 | **`diagnose_llama_cpp.bat`** | วินิจฉัยและแก้ไขปัญหา | เมื่อมีปัญหา llama-cpp-python |
-| **`install_llama_cpp_gpu.bat`** | ติดตั้ง llama-cpp-python พร้อม GPU | หลังจากมี Visual Studio แล้ว |
-| **`install_llama_alternative.bat`** | ติดตั้งทางเลือก | เมื่อติดตั้งปกติไม่ได้ |
-| **`setup_complete_gpu.bat`** | ติดตั้งและตรวจสอบครบชุด | ตรวจสอบระบบและติดตั้ง |
-| **`fix_faiss_windows.bat`** | แก้ไขปัญหา FAISS | เมื่อมี FAISS compatibility error |
 
-#### 🎯 Linux Scripts
+#### 🎯 Platform-specific Scripts
 
+**Windows Scripts (setup/windows/)**
+| Script | Description | When to Use |
+|--------|-------------|-------------|
+| **`auto_setup_windows.bat`** | ติดตั้ง prerequisites | เครื่องใหม่ที่ต้องการ CUDA/Build Tools |
+| **`setup_python_env_windows.bat`** | Python environment setup | หลังจากมี prerequisites |
+| **`download_models_windows.bat`** | ดาวน์โหลด LLM models | หลังจาก Python env พร้อม |
+| **`run_app_windows.bat`** | รัน application | เมื่อติดตั้งเสร็จแล้ว |
+
+**Linux Scripts (setup/linux/)**
 | Script | Description | When to Use |
 |--------|-------------|-------------|
 | **`auto_setup.sh`** | ติดตั้ง system dependencies | เครื่องใหม่ที่ยังไม่มี CUDA/Python |
 | **`setup_python_env.sh`** | ติดตั้ง Python environment | หลังจากติดตั้ง system deps |
 | **`download_models.sh`** | ดาวน์โหลด LLM models | หลังจากติดตั้ง Python env |
 | **`run_app.sh`** | รัน application | เมื่อติดตั้งเสร็จแล้ว |
-
-#### 🎯 Utility Scripts
-
-| Script | Description | OS |
-|--------|-------------|-----|
-| **`fix_faiss_compatibility.py`** | ทดสอบ FAISS compatibility | Cross-platform |
-| **`requirements_updated.txt`** | Package versions ที่เข้ากันได้ | Cross-platform |
 
 ---
 
@@ -113,16 +138,28 @@
 | **LLM Model** | `C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf` | `~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf` |
 | **Embedding Model** | `C:\AI\embedding-models\all-MiniLM-L6-v2` | `~/Documents/AI/embedding-models/all-MiniLM-L6-v2` |
 | **Virtual Environment** | `llm_rag_env\` | `llm_rag_env/` |
-| **Vector Stores** | `vector store\` | `vector store/` |
+| **Vector Stores** | `data\embeddings\vector store\` | `data/embeddings/vector store/` |
+| **Source Documents** | `data\sources\` | `data/sources/` |
 
 #### ⚡ Performance Reference
 
-| Setup | Speed (tokens/sec) | GPU Support | Difficulty |
-|-------|-------------------|-------------|------------|
-| **Linux + GPU** | 4000+ | ✅ | Medium |
-| **Windows + GPU** | 3800+ | ✅ | Hard |
-| **CPU only** | 2500-2700 | ❌ | Easy |
-| **WSL2 + GPU** | 4000+ | ✅ | Hard |
+| Setup | Speed (tokens/sec) | GPU Support | VRAM Usage | Difficulty |
+|-------|-------------------|-------------|------------|------------|
+| **Windows + GPU (RTX 2060)** | 25-35+ | ✅ | 2-3GB | Medium |
+| **Linux + GPU** | 30-40+ | ✅ | 2-3GB | Medium |
+| **CPU only** | 8-12 | ❌ | 3-4GB RAM | Easy |
+| **WSL2 + GPU** | 30-40+ | ✅ | 2-3GB | Hard |
+
+#### 🎯 New Project Structure
+
+| Directory | Contents | Purpose |
+|-----------|----------|---------|
+| **`scripts/testing/`** | test_gpu.py, validate_gpu_setup.py, check_llama_cuda.py | Testing & validation |
+| **`scripts/utilities/`** | build_faiss_index.py, fix_faiss_compatibility.py | Utility scripts |
+| **`data/sources/`** | PDF, TXT documents | Source documents |
+| **`data/embeddings/`** | Vector stores (FAISS) | Pre-built knowledge base |
+| **`docs/`** | Documentation files | All documentation |
+| **`docs/troubleshooting/`** | Troubleshooting guides | Problem resolution |
 
 #### 🔍 Troubleshooting Flowchart
 
@@ -141,26 +178,30 @@
 ### 🎯 Recommended Installation Flow
 
 #### 👑 สำหรับผู้ใช้ใหม่ (Windows):
-1. อ่าน [README.md](README.md) สำหรับภาพรวม
-2. รัน `install_complete_detailed.bat`
-3. หากมีปัญหา รัน `diagnose_llama_cpp.bat`
-4. อ่าน [LLAMA_CPP_PYTHON_TROUBLESHOOTING.md](LLAMA_CPP_PYTHON_TROUBLESHOOTING.md)
+1. อ่าน [README.md](../README.md) สำหรับภาพรวม
+2. รัน `.\issue\setup_complete_gpu.bat` (GPU support)
+3. หรือรัน `.\issue\install_menu.bat` (interactive menu)
+4. ทดสอบด้วย `python scripts\testing\validate_gpu_setup.py`
+5. หากมีปัญหา อ่าน [troubleshooting/](troubleshooting/)
 
 #### 👑 สำหรับผู้ใช้ใหม่ (Linux):
-1. อ่าน [README.md](README.md) สำหรับภาพรวม
+1. อ่าน [README.md](../README.md) สำหรับภาพรวม
 2. รัน `setup/linux/auto_setup.sh`
 3. รัน `setup/linux/setup_python_env.sh`
 4. รัน `setup/linux/download_models.sh`
+5. ทดสอบด้วย `python scripts/testing/test_gpu.py`
 
 #### 🔧 สำหรับ Advanced Users:
-1. อ่าน [setup/README.md](setup/README.md)
+1. อ่าน [setup/README.md](../setup/README.md)
 2. เลือก scripts ตามความต้องการ
-3. ปรับแต่งตาม environment
+3. ใช้ utility scripts ใน `scripts/utilities/`
+4. ปรับแต่งตาม environment
 
 #### 🚨 สำหรับการแก้ปัญหา:
-1. รัน diagnostic scripts ก่อน
-2. อ่าน troubleshooting guides
+1. รัน `python scripts/testing/validate_gpu_setup.py`
+2. อ่าน [troubleshooting guides](troubleshooting/)
 3. ใช้ alternative methods หากจำเป็น
+4. ตรวจสอบ performance ด้วย `scripts/testing/test_gpu.py`
 
 ---
 

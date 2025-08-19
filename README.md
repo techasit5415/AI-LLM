@@ -11,26 +11,59 @@
 - 💻 **Cross-platform:** Linux และ Windows
 - 🌐 **Web Interface:** Streamlit GUI
 
+# LLM-RAG Chatbot
+## Local LLM-powered RAG Chatbot with GPU Acceleration
+
+ระบบ RAG (Retrieval-Augmented Generation) Chatbot ที่ใช้ Local LLM โดยไม่ต้องพึ่ง HuggingFace API หรือ Cloud services รองรับทั้ง Linux และ Windows พร้อม GPU acceleration
+
+### ✨ Features
+- 🤖 **Local LLM:** Llama 3.2 3B Instruct (ไม่ต้องอินเทอร์เน็ต)
+- 🚀 **GPU Acceleration:** รองรับ NVIDIA CUDA
+- 📚 **RAG System:** ตอบคำถามจากเอกสารที่อัปโหลด
+- 🔍 **Vector Search:** FAISS vector database
+- 💻 **Cross-platform:** Linux และ Windows
+- 🌐 **Web Interface:** Streamlit GUI
+
 ### 📊 Performance
-- **Linux + GPU:** ~4,000+ tokens/second
-- **Windows + GPU:** ~3,800+ tokens/second
-- **CPU only:** ~2,500-2,700 tokens/second
+- **GPU mode:** 25-35+ tokens/sec (RTX 2060)
+- **CPU mode:** 8-12 tokens/sec
 
 ---
 
-## 🚀 Quick Start
-
-### 📁 Directory Structure
+##  Project Structure
 ```
-LLM-RAG/
-├── rag_chatbot.py              # Main application
-├── requirements.txt            # Dependencies
-├── pages/backend/rag_functions.py  # Backend logic
-├── vector store/               # Pre-built knowledge base
-├── data sources/               # Source documents
-└── setup/                      # 🆕 Installation scripts
-    ├── linux/                  # Linux setup files
-    └── windows/                # Windows setup files
+AI-LLM/
+├── rag_chatbot.py              # Main Streamlit application
+├── rag_chatbot_windows.py      # Windows-specific version
+├── pages/                      # Streamlit pages
+│   ├── document_embedding.py   # Document processing
+│   └── backend/
+│       └── rag_functions.py    # Core RAG logic
+├── data/                       # 🆕 Data directory
+│   ├── sources/                # Source documents (PDF, TXT)
+│   └── embeddings/             # Vector stores (FAISS)
+├── scripts/                    # 🆕 Utility scripts
+│   ├── testing/                # Testing & validation scripts
+│   │   ├── test_gpu.py         # GPU performance testing
+│   │   ├── validate_gpu_setup.py # Setup validation
+│   │   └── check_llama_cuda.py # CUDA compatibility check
+│   └── utilities/              # Utility scripts
+│       ├── build_faiss_index.py # Vector store builder
+│       └── fix_faiss_compatibility.py # FAISS API fixes
+├── docs/                       # 🆕 Documentation
+│   ├── DOCUMENTATION_INDEX.md  # Documentation index
+│   ├── QUICK_REFERENCE.md      # Quick reference guide
+│   └── troubleshooting/        # Troubleshooting guides
+│       ├── LLAMA_CPP_PYTHON_TROUBLESHOOTING.md
+│       └── GPU_SETUP_UPDATES.md
+├── setup/                      # Installation scripts
+│   ├── linux/                  # Linux setup files
+│   └── windows/                # Windows setup files
+├── issue/                      # Troubleshooting scripts
+│   └── setup_complete_gpu.bat  # GPU setup script
+└── experiment/                 # Jupyter notebooks
+    ├── LLM RAG experiment.ipynb
+    └── Run_Streamlit_of_LLM_RAG.ipynb
 ```
 
 ---
@@ -70,51 +103,56 @@ setup/linux/run_app.sh
 
 ## 🖥️ Windows Installation
 
-### 🚀 One-Click Installation (แนะนำ):
+### 🚀 Quick GPU Setup (แนะนำ):
 ```cmd
-cd LLM-RAG
+cd AI-LLM
+.\issue\setup_complete_gpu.bat
+```
+
+### 🎯 Alternative Installation Menu:
+```cmd
+cd AI-LLM
 .\issue\install_menu.bat
 ```
 
 ### Prerequisites:
-1. **Python 3.8+** (from python.org)
+1. **Python 3.11+** (from python.org)
 2. **Git for Windows** (from git-scm.com)
-3. **NVIDIA CUDA Toolkit** (optional, for GPU support)
-4. **Visual Studio Build Tools** (for compiling C++ packages)
+3. **NVIDIA CUDA Toolkit 12.1** (for GPU support)
+4. **Visual Studio Build Tools 2022** (for compiling C++ packages)
 
-### One-Command Install:
+### Step-by-Step Manual Installation:
 ```cmd
-cd LLM-RAG
-setup\windows\auto_setup_windows.bat && setup\windows\setup_python_env_windows.bat && setup\windows\download_models_windows.bat
-```
+cd AI-LLM
 
-### Step-by-Step:
-```cmd
-cd LLM-RAG
-
-REM 1. Check system requirements
-setup\windows\auto_setup_windows.bat
-
-REM 2. Setup Python environment and packages
+REM 1. Setup Python environment
 setup\windows\setup_python_env_windows.bat
 
-REM 3. Download LLM models (~2.16 GB) to C:\AI\
+REM 2. Download LLM models (~2.16 GB) to C:\AI\
 setup\windows\download_models_windows.bat
 
-REM 4. Run application
+REM 3. Run application
 setup\windows\run_app_windows.bat
 ```
 
 **LLM path:** `C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf`
 
-### 🔧 Troubleshooting:
+### 🔧 Testing & Validation:
 ```cmd
-REM หากมีปัญหา ใช้เมนูการติดตั้ง
-.\issue\install_menu.bat
+REM Test GPU performance
+python scripts\testing\test_gpu.py
 
-REM อ่านคู่มือแก้ปัญหา
-.\issue\LLAMA_CPP_PYTHON_TROUBLESHOOTING.md
+REM Validate installation
+python scripts\testing\validate_gpu_setup.py
+
+REM Check CUDA compatibility
+python scripts\testing\check_llama_cuda.py
 ```
+
+### 🛠️ Troubleshooting:
+- **Documentation:** `docs\troubleshooting\`
+- **Quick fixes:** `issue\diagnose_llama_cpp.bat`
+- **GPU issues:** `docs\troubleshooting\GPU_SETUP_UPDATES.md`
 
 ### 📖 **Detailed Guide:** `setup/windows/WINDOWS_SETUP.md`
 ### ⚡ **Quick Reference:** `setup/windows/WINDOWS_QUICK_START.md`
@@ -132,6 +170,20 @@ REM อ่านคู่มือแก้ปัญหา
 - "What is Naruto's main goal?" (ใช้ naruto vector store)
 - "How do snakes shed their skin?" (ใช้ snake vector store)
 - "Compare Naruto and snake characteristics" (ใช้ naruto_snake vector store)
+
+### 📊 Performance Monitoring:
+- **GPU working:** ดู log หา "offloaded 29/29 layers to GPU"
+- **Speed > 25 tokens/sec:** GPU acceleration active
+- **Speed ~10 tokens/sec:** CPU only
+
+### 🔧 Utilities Available:
+```cmd
+REM Rebuild vector stores
+python scripts\utilities\build_faiss_index.py
+
+REM Fix FAISS compatibility issues  
+python scripts\utilities\fix_faiss_compatibility.py
+```
 
 ---
 
@@ -160,53 +212,7 @@ REM PowerShell execution policy
 powershell Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-### Performance Check:
-- **GPU working:** Look for "assigned to device CUDA0" in logs
-- **Speed > 3000 tokens/sec:** GPU acceleration active
-- **Speed ~2700 tokens/sec:** CPU only
-
----
-
-## 📋 System Requirements
-
-### Minimum:
-- **OS:** Ubuntu 20.04+ / Windows 10+
-- **RAM:** 8GB
-- **Storage:** 20GB free space
-- **GPU:** NVIDIA with 4GB+ VRAM (optional but recommended)
-
-### Recommended:
-- **OS:** Ubuntu 22.04+ / Windows 11
-- **RAM:** 16GB+
-- **Storage:** 50GB+ free space
-- **GPU:** NVIDIA RTX 3060+ with 8GB+ VRAM
-
----
-
-## 🛠️ Development
-
-### Project Structure:
-```
-├── rag_chatbot.py              # Streamlit frontend
-├── pages/backend/
-│   └── rag_functions.py        # RAG logic and LLM integration
-├── vector store/               # FAISS vector databases
-├── data sources/               # Source documents
-└── setup/                      # Installation scripts
-    ├── linux/                  # Linux-specific files
-    └── windows/                # Windows-specific files
-```
-
-### Key Components:
-- **LLM:** Llama 3.2 3B Instruct (GGUF format)
-- **Embeddings:** sentence-transformers/all-MiniLM-L6-v2
-- **Vector Store:** FAISS
-- **Framework:** LangChain + Streamlit
-- **GPU:** llama-cpp-python with CUDA support
-
----
-
-## 📄 License
+##  License
 
 This project uses various open-source components:
 - **Llama 3.2:** Meta's Llama 3.2 license
@@ -227,29 +233,36 @@ This project uses various open-source components:
 ## 📞 Support
 
 ### Need Help?
-1. **Read the setup guides** in `setup/linux/` or `setup/windows/`
-2. **Check troubleshooting sections** in the guides
-3. **Verify system requirements** are met
-4. **Look at log outputs** for specific error messages
+1. **Read the documentation** in `docs/` directory
+2. **Check troubleshooting guides** in `docs/troubleshooting/`
+3. **Run validation scripts** in `scripts/testing/`
+4. **Verify system requirements** are met
 
-### Files to Check:
-- **Linux:** `setup/linux/SETUP_GUIDE.md`
-- **Windows:** `setup/windows/WINDOWS_SETUP.md`
-- **Quick ref:** `setup/*/QUICK_START.md`
-This repo demonstrates the development of Retrieval-Augmented Generation (RAG). 
+### Key Documentation:
+- **Windows Setup:** `setup/windows/WINDOWS_SETUP.md`
+- **Linux Setup:** `setup/linux/SETUP_GUIDE.md`
+- **Quick Reference:** `docs/QUICK_REFERENCE.md`
+- **GPU Troubleshooting:** `docs/troubleshooting/`
+
+### 🧪 Testing & Validation:
+- **GPU Test:** `python scripts/testing/test_gpu.py`
+- **Full Validation:** `python scripts/testing/validate_gpu_setup.py`
+- **CUDA Check:** `python scripts/testing/check_llama_cuda.py`
+
+---
+
+This repository demonstrates the development of Retrieval-Augmented Generation (RAG). 
 RAG enables LLM to generate answer text based on custom documents.
 This repo also presents the RAG as a chatbot in Streamlit app.
 
-Below is the diagram of the development
-![alt text](diagram.png)
+Below is the diagram of the development:
 
-# How to Run the App
-```streamlit run rag_chatbot.py```
+![RAG Architecture Diagram](diagram.png)
 
 # Interface Display
-![alt text](interface.png)
+![Streamlit Interface](interface.png)
 
-# The Article 
+## 📝 Related Article 
 The article discussing the process of developing this application:
 
 [RAG and Streamlit Chatbot: Chat with Documents Using LLM](https://www.analyticsvidhya.com/blog/2024/04/rag-and-streamlit-chatbot-chat-with-documents-using-llm/)

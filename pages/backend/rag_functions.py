@@ -58,15 +58,23 @@ def embedding_storing(model_name, split, create_new_vs, existing_vector_store, n
         db = FAISS.from_documents(split, instructor_embeddings.embed_query)
 
         if create_new_vs == True:
-            # Save db
-            db.save_local("vector store/" + new_vs_name)
+            # Save db - ใช้ path ใหม่
+            vector_store_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "embeddings", "vector store")
+            if not os.path.exists(vector_store_path):
+                os.makedirs(vector_store_path, exist_ok=True)
+            db.save_local(os.path.join(vector_store_path, new_vs_name))
         else:
-            # Load existing db with version compatibility
+            # Load existing db with version compatibility - ใช้ path ใหม่
+            vector_store_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "embeddings", "vector store")
+            if not os.path.exists(vector_store_path):
+                # Fallback สำหรับ path เก่า
+                vector_store_path = os.path.join(os.path.dirname(__file__), "..", "..", "vector store")
+            
             try:
                 # สำหรับ langchain version ใหม่
                 print("Trying to load FAISS with allow_dangerous_deserialization=True")
                 load_db = FAISS.load_local(
-                    "vector store/" + existing_vector_store,
+                    os.path.join(vector_store_path, existing_vector_store),
                     instructor_embeddings,
                     allow_dangerous_deserialization=True
                 )
@@ -76,13 +84,13 @@ def embedding_storing(model_name, split, create_new_vs, existing_vector_store, n
                 print(f"Failed with new API: {e}")
                 print("Trying to load FAISS with old API")
                 load_db = FAISS.load_local(
-                    "vector store/" + existing_vector_store,
+                    os.path.join(vector_store_path, existing_vector_store),
                     instructor_embeddings
                 )
                 print("Successfully loaded FAISS with old API")
             # Merge two DBs and save
             load_db.merge_from(db)
-            load_db.save_local("vector store/" + new_vs_name)
+            load_db.save_local(os.path.join(vector_store_path, new_vs_name))
 
         st.success("The document has been saved.")
 
@@ -161,12 +169,17 @@ def prepare_rag_llm(
                 
         instructor_embeddings = FallbackEmbeddings()
 
-    # Load db with version compatibility
+    # Load db with version compatibility - ใช้ path ใหม่
+    vector_store_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "embeddings", "vector store")
+    if not os.path.exists(vector_store_path):
+        # Fallback สำหรับ path เก่า
+        vector_store_path = os.path.join(os.path.dirname(__file__), "..", "..", "vector store")
+    
     try:
         # สำหรับ langchain version ใหม่
         print("Trying to load FAISS vector store with allow_dangerous_deserialization=True")
         loaded_db = FAISS.load_local(
-            f"vector store/{vector_store_list}", 
+            os.path.join(vector_store_path, vector_store_list), 
             instructor_embeddings.embed_query, 
             allow_dangerous_deserialization=True
         )
@@ -176,7 +189,7 @@ def prepare_rag_llm(
         print(f"Failed with new API: {e}")
         print("Trying to load FAISS vector store with old API")
         loaded_db = FAISS.load_local(
-            f"vector store/{vector_store_list}", 
+            os.path.join(vector_store_path, vector_store_list), 
             instructor_embeddings.embed_query
         )
         print("Successfully loaded FAISS vector store with old API")

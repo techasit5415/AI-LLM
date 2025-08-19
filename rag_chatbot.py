@@ -28,12 +28,19 @@ with st.expander("Setting the LLM"):
 
         row_2 = st.columns(3)
         with row_2[0]:
-            vector_store_list = os.listdir(os.path.join(os.path.dirname(__file__), "vector store"))
+            vector_store_path = os.path.join(os.path.dirname(__file__), "data", "embeddings", "vector store")
+            if os.path.exists(vector_store_path):
+                vector_store_list = os.listdir(vector_store_path)
+            else:
+                # Fallback สำหรับ path เก่า
+                vector_store_path = os.path.join(os.path.dirname(__file__), "vector store")
+                vector_store_list = os.listdir(vector_store_path) if os.path.exists(vector_store_path) else []
+                
             default_choice = (
                 vector_store_list.index('naruto_snake')
                 if 'naruto_snake' in vector_store_list
                 else 0
-            )
+            ) if vector_store_list else 0
             existing_vector_store = st.selectbox("Vector Store", vector_store_list, default_choice)
         
         with row_2[1]:

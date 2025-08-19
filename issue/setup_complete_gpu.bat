@@ -140,17 +140,30 @@ if "%GPU_SUPPORT%"=="true" (
         nvcc --version | findstr "release"
         
         echo ⬇️ กำลังติดตั้งแบบ GPU สำหรับ CUDA 12.1...
-        pip install llama-cpp-python --index-url https://abetlen.github.io/llama-cpp-python/whl/cu121 --no-cache-dir --force-reinstall
+        echo 📋 ใช้ pre-compiled CUDA wheel สำหรับความเสถียร
+        pip install https://github.com/abetlen/llama-cpp-python/releases/download/v0.2.90-cu121/llama_cpp_python-0.2.90-cp311-cp311-win_amd64.whl --force-reinstall --no-deps
         
         if errorlevel 1 (
             echo.
             echo ❌ ติดตั้งแบบ GPU ไม่สำเร็จ!
             echo.
             echo 💡 สาเหตุที่เป็นไปได้:
-            echo    - ไม่มี Visual Studio Build Tools ครบถ้วน
-            echo    - ไม่มี CUDA Toolkit
+            echo    - เครือข่ายไม่เสถียร (ไฟล์ขนาด 447MB)
+            echo    - CUDA version ไม่ตรงกัน
             echo    - Memory ไม่เพียงพอ
             echo.
+            echo 🔄 ลองใช้ alternative installation methods...
+            echo.
+            echo 📝 Method 1: ติดตั้งจาก index repository
+            pip install llama-cpp-python --index-url https://abetlen.github.io/llama-cpp-python/whl/cu121 --no-cache-dir --force-reinstall --no-deps
+            
+            if not errorlevel 1 (
+                echo ✅ ติดตั้งแบบ GPU สำเร็จ (Method 1)!
+                goto :test_installation
+            )
+            
+            echo.
+            echo 📝 Method 2: ติดตั้งแบบ CPU fallback
             set /p fallback="ต้องการติดตั้งแบบ CPU แทนหรือไม่? (y/n): "
             if /i "%fallback%"=="y" (
                 echo 💻 กำลังติดตั้งแบบ CPU...
@@ -188,16 +201,32 @@ if "%GPU_SUPPORT%"=="true" (
 )
 
 REM ทดสอบการติดตั้ง
-echo 🧪 ทดสอบ llama-cpp-python...
-python -c "from llama_cpp import Llama; print('✅ llama-cpp-python ติดตั้งสำเร็จ')" 2>nul
+echo 🧪 ทดสอบการติดตั้ง llama-cpp-python...
+echo.
+
+echo 📋 ตรวจสอบ version และ import...
+python -c "import llama_cpp; print(f'✅ llama-cpp-python version: {llama_cpp.__version__}')" 2>nul
 if errorlevel 1 (
-    echo ❌ ทดสอบไม่ผ่าน มีปัญหาในการติดตั้ง
+    echo ❌ ทดสอบไม่ผ่าน ไม่สามารถ import llama_cpp ได้
     echo 💡 ลองรันคำสั่งนี้เพื่อดู error:
-    echo    python -c "from llama_cpp import Llama"
+    echo    python -c "import llama_cpp"
     goto :installation_failed
-) else (
-    echo ✅ llama-cpp-python พร้อมใช้งาน!
 )
+
+echo.
+echo 🔍 ตรวจสอบ CUDA support...
+python -c "import llama_cpp.llama_cpp as llama_cpp_lib; print('✅ CUDA Support available') if hasattr(llama_cpp_lib, 'GGML_USE_CUDA') else print('⚠️ CPU-only mode')" 2>nul
+
+if "%GPU_SUPPORT%"=="true" (
+    echo.
+    echo 💾 ตรวจสอบ GPU availability...
+    python -c "import torch; print(f'✅ GPU Available: {torch.cuda.is_available()}'); print(f'GPU Count: {torch.cuda.device_count()}'); print(f'GPU Name: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else \"N/A\"}')" 2>nul
+    if errorlevel 1 (
+        echo ⚠️ ไม่สามารถตรวจสอบ GPU ได้ (PyTorch ไม่สามารถใช้งานได้)
+    )
+)
+
+echo ✅ llama-cpp-python พร้อมใช้งาน!
 
 :install_other_packages
 
@@ -213,12 +242,22 @@ echo 📋 ขั้นตอนต่อไป:
 echo 1. รัน application: streamlit run rag_chatbot.py
 echo 2. เปิด browser ไปที่: http://localhost:8501
 echo 3. กด "Create chatbot" เพื่อโหลดโมเดล
-echo 4. ตรวจสอบ performance:
+echo.
+echo 🔬 ทดสอบ performance (optional):
+echo    python test_gpu.py
+echo.
+echo 🧪 ตรวจสอบการติดตั้งอย่างละเอียด:
+echo    python validate_gpu_setup.py
+echo.
+echo 📊 ประสิทธิภาพที่คาดหวัง:
 if "%GPU_SUPPORT%"=="true" (
-    echo    - GPU mode: หา "assigned to device CUDA0" ใน log
-    echo    - ความเร็ว: 3000+ tokens/sec
+    echo    - GPU mode: ความเร็ว 25-35+ tokens/sec
+    echo    - ดู log หา "offloaded 29/29 layers to GPU"
+    echo    - VRAM usage: ประมาณ 2-3GB
+    echo    - เร็วกว่า CPU mode ประมาณ 3 เท่า
 ) else (
-    echo    - CPU mode: ความเร็ว ~2500 tokens/sec
+    echo    - CPU mode: ความเร็ว 8-12 tokens/sec
+    echo    - การใช้ RAM: ประมาณ 3-4GB
 )
 echo.
 echo 💡 หมายเหตุ: หากต้องการเปลี่ยนจาก CPU เป็น GPU ในภายหลัง
@@ -235,19 +274,25 @@ echo ==================
 echo.
 echo 🔧 แนวทางแก้ไข:
 echo.
-echo 1️⃣ ตรวจสอบ Visual Studio Build Tools:
+echo 1️⃣ ตรวจสอบเครือข่าย และ retry:
+echo    ไฟล์ GPU wheel ขนาด 447MB อาจดาวน์โหลดไม่สมบูรณ์
+echo.
+echo 2️⃣ ใช้ alternative download method:
+echo    pip install llama-cpp-python --index-url https://abetlen.github.io/llama-cpp-python/whl/cu121 --no-cache-dir --no-deps
+echo.
+echo 3️⃣ ตรวจสอบ CUDA version compatibility:
+echo    nvcc --version (ต้องเป็น CUDA 12.1)
+echo.
+echo 4️⃣ ตรวจสอบ Visual Studio Build Tools:
 echo    winget install Microsoft.VisualStudio.2022.BuildTools
 echo.
-echo 2️⃣ ลองใช้ pre-compiled wheel สำหรับ CUDA 12.1:
-echo    pip install llama-cpp-python --index-url https://abetlen.github.io/llama-cpp-python/whl/cu121 --no-cache-dir
-echo.
-echo 3️⃣ รันสคริปต์วินิจฉัย:
+echo 5️⃣ รันสคริปต์วินิจฉัย:
 echo    .\issue\diagnose_llama_cpp.bat
 echo.
-echo 4️⃣ ติดตั้งแบบ CPU-only:
+echo 6️⃣ ติดตั้งแบบ CPU-only หากจำเป็น:
 echo    pip install llama-cpp-python --no-cache-dir
 echo.
-echo 5️⃣ ดู troubleshooting guide:
+echo 7️⃣ ดู troubleshooting guide:
 echo    .\issue\LLAMA_CPP_PYTHON_TROUBLESHOOTING.md
 echo.
 echo 💡 เคล็ดลับ: รันสคริปต์นี้อีกครั้งหลังจากแก้ปัญหาแล้ว
