@@ -73,7 +73,7 @@ setup/linux/run_app.sh
 ### 🚀 One-Click Installation (แนะนำ):
 ```cmd
 cd LLM-RAG
-install_complete_detailed.bat
+.\issue\install_menu.bat
 ```
 
 ### Prerequisites:
@@ -109,11 +109,11 @@ setup\windows\run_app_windows.bat
 
 ### 🔧 Troubleshooting:
 ```cmd
-REM หากมีปัญหา ใช้สคริปต์วินิจฉัย
-diagnose_llama_cpp.bat
+REM หากมีปัญหา ใช้เมนูการติดตั้ง
+.\issue\install_menu.bat
 
 REM อ่านคู่มือแก้ปัญหา
-LLAMA_CPP_PYTHON_TROUBLESHOOTING.md
+.\issue\LLAMA_CPP_PYTHON_TROUBLESHOOTING.md
 ```
 
 ### 📖 **Detailed Guide:** `setup/windows/WINDOWS_SETUP.md`
