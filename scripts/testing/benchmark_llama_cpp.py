@@ -1,7 +1,8 @@
 import time
+import os
 from llama_cpp import Llama
 
-MODEL_PATH = r"C:\Users\techa\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf"  # เปลี่ยน path ตามโมเดลที่มี
+MODEL_PATH = os.path.expanduser("~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf")  # ใช้ expanduser แทน hardcode path
 PROMPT = "Tell me a joke about AI."
 N_TOKENS = 64
 

@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 chcp 65001 >nul
 REM Complete setup script for llama-cpp-python with GPU support
 REM สคริปต์ติดตั้งครบชุดสำหรับ llama-cpp-python พร้อม GPU support
@@ -114,7 +115,7 @@ echo 🔍 ตรวจสอบการติดตั้ง llama-cpp-python �
 python -c "import llama_cpp; print('✅ พบ llama-cpp-python version:', llama_cpp.__version__)" 2>nul
 if not errorlevel 1 (
     echo.
-    echo � พบ llama-cpp-python ติดตั้งแล้ว
+    echo ✅ พบ llama-cpp-python ติดตั้งแล้ว
     set /p reinstall="ต้องการติดตั้งใหม่หรือไม่? (y/n): "
     if /i "%reinstall%"=="n" (
         echo ⏭️ ข้ามการติดตั้ง llama-cpp-python
@@ -122,7 +123,7 @@ if not errorlevel 1 (
     )
 )
 
-echo �🦙 ติดตั้ง llama-cpp-python...
+echo 🦙 ติดตั้ง llama-cpp-python...
 
 REM ลบ version เก่าก่อน
 echo 🗑️ ลบ version เก่า...
@@ -145,7 +146,7 @@ if "%GPU_SUPPORT%"=="true" (
         
         if errorlevel 1 (
             echo.
-            echo ❌ ติดตั้งแบบ GPU ไม่สำเร็จ!
+            echo ❌ ติดตั้งแบบ GPU ไม่สำเร็จ^!
             echo.
             echo 💡 สาเหตุที่เป็นไปได้:
             echo    - เครือข่ายไม่เสถียร (ไฟล์ขนาด 447MB)
@@ -158,7 +159,7 @@ if "%GPU_SUPPORT%"=="true" (
             pip install llama-cpp-python --index-url https://abetlen.github.io/llama-cpp-python/whl/cu121 --no-cache-dir --force-reinstall --no-deps
             
             if not errorlevel 1 (
-                echo ✅ ติดตั้งแบบ GPU สำเร็จ (Method 1)!
+                echo ✅ ติดตั้งแบบ GPU สำเร็จ (Method 1)^!
                 goto :test_installation
             )
             
@@ -169,7 +170,7 @@ if "%GPU_SUPPORT%"=="true" (
                 echo 💻 กำลังติดตั้งแบบ CPU...
                 pip install llama-cpp-python --no-cache-dir
                 if not errorlevel 1 (
-                    echo ✅ ติดตั้งแบบ CPU สำเร็จ!
+                    echo ✅ ติดตั้งแบบ CPU สำเร็จ^!
                 ) else (
                     echo ❌ ติดตั้งแบบ CPU ก็ไม่สำเร็จ
                     goto :installation_failed
@@ -179,13 +180,13 @@ if "%GPU_SUPPORT%"=="true" (
                 goto :installation_failed
             )
         ) else (
-            echo ✅ ติดตั้งแบบ GPU สำเร็จ!
+            echo ✅ ติดตั้งแบบ GPU สำเร็จ^!
         )
     ) else (
         echo 💻 ติดตั้งแบบ CPU ตามที่เลือก...
         pip install llama-cpp-python --no-cache-dir
         if not errorlevel 1 (
-            echo ✅ ติดตั้งแบบ CPU สำเร็จ!
+            echo ✅ ติดตั้งแบบ CPU สำเร็จ^!
         ) else (
             goto :installation_failed
         )
@@ -194,7 +195,7 @@ if "%GPU_SUPPORT%"=="true" (
     echo 💻 ติดตั้งแบบ CPU-only...
     pip install llama-cpp-python --no-cache-dir
     if not errorlevel 1 (
-        echo ✅ ติดตั้งแบบ CPU สำเร็จ!
+        echo ✅ ติดตั้งแบบ CPU สำเร็จ^!
     ) else (
         goto :installation_failed
     )
@@ -226,7 +227,7 @@ if "%GPU_SUPPORT%"=="true" (
     )
 )
 
-echo ✅ llama-cpp-python พร้อมใช้งาน!
+echo ✅ llama-cpp-python พร้อมใช้งาน^!
 
 :install_other_packages
 
@@ -235,7 +236,7 @@ echo 📦 ติดตั้ง packages อื่นๆ...
 pip install streamlit langchain langchain-community faiss-cpu sentence-transformers
 
 echo.
-echo 🎉 ติดตั้งเสร็จสิ้น!
+echo 🎉 ติดตั้งเสร็จสิ้น^!
 echo ===================
 echo.
 echo 📋 ขั้นตอนต่อไป:
@@ -244,10 +245,10 @@ echo 2. เปิด browser ไปที่: http://localhost:8501
 echo 3. กด "Create chatbot" เพื่อโหลดโมเดล
 echo.
 echo 🔬 ทดสอบ performance (optional):
-echo    python test_gpu.py
+echo    python scripts\testing\test_gpu.py
 echo.
 echo 🧪 ตรวจสอบการติดตั้งอย่างละเอียด:
-echo    python validate_gpu_setup.py
+echo    python scripts\testing\validate_gpu_setup.py
 echo.
 echo 📊 ประสิทธิภาพที่คาดหวัง:
 if "%GPU_SUPPORT%"=="true" (

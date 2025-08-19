@@ -34,9 +34,13 @@ def test_faiss_loading():
     vector_stores = ["naruto", "snake", "naruto_snake"]
     
     for vs_name in vector_stores:
-        vs_path = f"vector store/{vs_name}"
+        # ใช้ path ใหม่ก่อน แล้วค่อย fallback
+        vs_path = os.path.join("data", "embeddings", "vector store", vs_name)
+        if not os.path.exists(vs_path):
+            vs_path = f"vector store/{vs_name}"  # fallback ไป path เก่า
+            
         if os.path.exists(vs_path):
-            print(f"\n📁 Testing vector store: {vs_name}")
+            print(f"\n📁 Testing vector store: {vs_name} at {vs_path}")
             
             try:
                 # ลอง API ใหม่ก่อน

@@ -29,8 +29,15 @@ with st.form("document_input"):
     
     row_2 = st.columns(2)
     with row_2[0]:
-        # List the existing vector stores
-        vector_store_list = os.listdir("vector store/")
+        # List the existing vector stores - ใช้ path ใหม่
+        vector_store_path = os.path.join("..", "data", "embeddings", "vector store")
+        if os.path.exists(vector_store_path):
+            vector_store_list = os.listdir(vector_store_path)
+        else:
+            # Fallback สำหรับ path เก่า
+            vector_store_path = os.path.join("..", "vector store")
+            vector_store_list = os.listdir(vector_store_path) if os.path.exists(vector_store_path) else []
+        
         vector_store_list = ["<New>"] + vector_store_list
         
         existing_vector_store = st.selectbox(

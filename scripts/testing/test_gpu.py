@@ -1,5 +1,6 @@
 from llama_cpp import Llama
 import os
+import os
 
 print("=== Testing llama-cpp-python GPU Support ===")
 
@@ -15,7 +16,8 @@ except:
     print("❌ nvidia-smi not available")
 
 # Test loading model with GPU
-model_path = r"C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf"
+# ปรับ path ให้ใช้ expanduser สำหรับความยืดหยุ่น
+model_path = os.path.expanduser("~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf")
 if os.path.exists(model_path):
     print(f"✅ Model file found: {model_path}")
     
