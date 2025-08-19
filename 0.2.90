@@ -1,0 +1,20 @@
+Collecting llama-cpp-python
+  Downloading llama_cpp_python-0.3.16.tar.gz (50.7 MB)
+     ---------------------------------------- 50.7/50.7 MB 64.6 MB/s  0:00:00
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: typing-extensions>=4.5.0 in c:\users\techa\downloads\test\ai-llm\llm_rag_env\lib\site-packages (from llama-cpp-python) (4.12.2)
+Requirement already satisfied: numpy>=1.20.0 in c:\users\techa\downloads\test\ai-llm\llm_rag_env\lib\site-packages (from llama-cpp-python) (2.1.2)
+Requirement already satisfied: diskcache>=5.6.1 in c:\users\techa\downloads\test\ai-llm\llm_rag_env\lib\site-packages (from llama-cpp-python) (5.6.3)
+Requirement already satisfied: jinja2>=2.11.3 in c:\users\techa\downloads\test\ai-llm\llm_rag_env\lib\site-packages (from llama-cpp-python) (3.1.4)
+Requirement already satisfied: MarkupSafe>=2.0 in c:\users\techa\downloads\test\ai-llm\llm_rag_env\lib\site-packages (from jinja2>=2.11.3->llama-cpp-python) (2.1.5)
+Building wheels for collected packages: llama-cpp-python
+  Building wheel for llama-cpp-python (pyproject.toml): started
+  Building wheel for llama-cpp-python (pyproject.toml): finished with status 'error'
+Failed to build llama-cpp-python

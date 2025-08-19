@@ -104,10 +104,7 @@ setup/linux/run_app.sh
 ## 🖥️ Windows Installation
 
 ### 🚀 Quick GPU Setup (แนะนำ):
-```cmd
-cd AI-LLM
-.\issue\setup_complete_gpu.bat
-```
+
 
 ### 🎯 Alternative Installation Menu:
 ```cmd
@@ -124,15 +121,21 @@ cd AI-LLM
 ### Step-by-Step Manual Installation:
 ```cmd
 cd AI-LLM
+REM 1. check hardware
+setup\windows\auto_setup_windows.bat
 
-REM 1. Setup Python environment
+REM 2. Setup Python environment
 setup\windows\setup_python_env_windows.bat
 
-REM 2. Download LLM models (~2.16 GB) to C:\AI\
+REM 3. Download LLM models (~2.16 GB) to C:\AI\
 setup\windows\download_models_windows.bat
 
-REM 3. Run application
+REM 4. Run application
 setup\windows\run_app_windows.bat
+
+REM 5. GPU CUDA FIX
+.\issue\setup_complete_gpu.bat
+
 ```
 
 **LLM path:** `C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf`
