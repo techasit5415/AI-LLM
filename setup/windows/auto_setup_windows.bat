@@ -1,4 +1,5 @@
 @echo off
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 REM LLM-RAG Windows Auto Setup Script
 REM สำหรับติดตั้งระบบ RAG Chatbot แบบ Local LLM บน Windows
 
