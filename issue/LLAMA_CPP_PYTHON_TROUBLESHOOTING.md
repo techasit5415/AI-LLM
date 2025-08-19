@@ -64,15 +64,25 @@ REM เปิดใหม่เพื่อให้ environment variables updat
 REM เปิดใช้งาน virtual environment
 llm_rag_env\Scripts\activate.bat
 
-REM ตั้งค่า environment สำหรับ GPU
+REM ⚠️ สำคัญ: ตั้งค่า VS environment ก่อน
+call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+
+REM สำหรับ CPU-only (แนะนำ)
+pip install llama-cpp-python==0.2.90 --no-cache-dir --force-reinstall
+
+REM หรือสำหรับ GPU support
 set CMAKE_ARGS=-DLLAMA_CUBLAS=on
 set FORCE_CMAKE=1
-
-REM ติดตั้ง llama-cpp-python
 pip install llama-cpp-python==0.2.90 --no-cache-dir --force-reinstall
 
 REM ทดสอบ
 python -c "from llama_cpp import Llama; print('✅ Success!')"
+```
+
+#### 🚨 หากยังติดตั้งไม่ได้หลังจากติดตั้ง Build Tools:
+```cmd
+REM รันสคริปต์แก้ไขปัญหา
+.\issue\fix_buildtools_installation.bat
 ```
 
 ---
