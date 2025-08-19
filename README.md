@@ -70,11 +70,17 @@ setup/linux/run_app.sh
 
 ## 🖥️ Windows Installation
 
+### 🚀 One-Click Installation (แนะนำ):
+```cmd
+cd LLM-RAG
+install_complete_detailed.bat
+```
+
 ### Prerequisites:
 1. **Python 3.8+** (from python.org)
 2. **Git for Windows** (from git-scm.com)
-3. **NVIDIA CUDA Toolkit** (from developer.nvidia.com)
-4. **Visual Studio Build Tools** (optional but recommended)
+3. **NVIDIA CUDA Toolkit** (optional, for GPU support)
+4. **Visual Studio Build Tools** (for compiling C++ packages)
 
 ### One-Command Install:
 ```cmd
@@ -100,6 +106,15 @@ setup\windows\run_app_windows.bat
 ```
 
 **LLM path:** `C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf`
+
+### 🔧 Troubleshooting:
+```cmd
+REM หากมีปัญหา ใช้สคริปต์วินิจฉัย
+diagnose_llama_cpp.bat
+
+REM อ่านคู่มือแก้ปัญหา
+LLAMA_CPP_PYTHON_TROUBLESHOOTING.md
+```
 
 ### 📖 **Detailed Guide:** `setup/windows/WINDOWS_SETUP.md`
 ### ⚡ **Quick Reference:** `setup/windows/WINDOWS_QUICK_START.md`
