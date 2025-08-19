@@ -61,12 +61,25 @@ def embedding_storing(model_name, split, create_new_vs, existing_vector_store, n
             # Save db
             db.save_local("vector store/" + new_vs_name)
         else:
-            # Load existing db
-            load_db = FAISS.load_local(
-                "vector store/" + existing_vector_store,
-                instructor_embeddings,
-                allow_dangerous_deserialization=True
-            )
+            # Load existing db with version compatibility
+            try:
+                # สำหรับ langchain version ใหม่
+                print("Trying to load FAISS with allow_dangerous_deserialization=True")
+                load_db = FAISS.load_local(
+                    "vector store/" + existing_vector_store,
+                    instructor_embeddings,
+                    allow_dangerous_deserialization=True
+                )
+                print("Successfully loaded FAISS with new API")
+            except TypeError as e:
+                # สำหรับ langchain version เก่า
+                print(f"Failed with new API: {e}")
+                print("Trying to load FAISS with old API")
+                load_db = FAISS.load_local(
+                    "vector store/" + existing_vector_store,
+                    instructor_embeddings
+                )
+                print("Successfully loaded FAISS with old API")
             # Merge two DBs and save
             load_db.merge_from(db)
             load_db.save_local("vector store/" + new_vs_name)
@@ -148,10 +161,25 @@ def prepare_rag_llm(
                 
         instructor_embeddings = FallbackEmbeddings()
 
-    # Load db
-    loaded_db = FAISS.load_local(
-        f"vector store/{vector_store_list}", instructor_embeddings, allow_dangerous_deserialization=True
-    )
+    # Load db with version compatibility
+    try:
+        # สำหรับ langchain version ใหม่
+        print("Trying to load FAISS vector store with allow_dangerous_deserialization=True")
+        loaded_db = FAISS.load_local(
+            f"vector store/{vector_store_list}", 
+            instructor_embeddings, 
+            allow_dangerous_deserialization=True
+        )
+        print("Successfully loaded FAISS vector store with new API")
+    except TypeError as e:
+        # สำหรับ langchain version เก่า
+        print(f"Failed with new API: {e}")
+        print("Trying to load FAISS vector store with old API")
+        loaded_db = FAISS.load_local(
+            f"vector store/{vector_store_list}", 
+            instructor_embeddings
+        )
+        print("Successfully loaded FAISS vector store with old API")
 
     # Load LLM (LlamaCpp)
     llm = LlamaCpp(
