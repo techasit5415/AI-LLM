@@ -80,19 +80,23 @@ source ~/.bashrc
 #### 6. ดาวน์โหลด LLM Model
 ```bash
 # สร้างโฟลเดอร์สำหรับ models
-mkdir -p ~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF
+mkdir -p /home/$(whoami)/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF
 
 # ดาวน์โหลด Llama 3.2 3B Instruct GGUF
-cd ~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF
+cd /home/$(whoami)/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF
 wget https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q5_K_M.gguf
+
+# LLM path: /home/$(whoami)/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf
 ```
 
 #### 7. เตรียม Embedding Model (Optional)
 ```bash
 # ดาวน์โหลด embedding model สำหรับใช้ offline
-mkdir -p ~/Documents/AI/embedding-models
-cd ~/Documents/AI/embedding-models
+mkdir -p /home/$(whoami)/Documents/AI/embedding-models
+cd /home/$(whoami)/Documents/AI/embedding-models
 git clone https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+
+# Embedding path: /home/$(whoami)/Documents/AI/embedding-models/all-MiniLM-L6-v2
 ```
 
 #### 8. Setup Project
@@ -168,3 +172,23 @@ LLM-RAG/
 - **CPU:** ~2,700 tokens/second
 - **GPU:** ~4,000+ tokens/second
 - **Memory Usage:** ~4-6GB VRAM สำหรับ 3B model
+
+---
+
+## 📁 Model Paths สำหรับ Linux
+
+### LLM Model:
+```
+Path: ~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf
+Full Path: /home/$(whoami)/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf
+Size: ~2.16 GB
+URL: https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q5_K_M.gguf
+```
+
+### Embedding Model (Optional):
+```
+Path: ~/Documents/AI/embedding-models/all-MiniLM-L6-v2
+Full Path: /home/$(whoami)/Documents/AI/embedding-models/all-MiniLM-L6-v2
+Size: ~90 MB
+URL: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+```

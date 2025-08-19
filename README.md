@@ -54,12 +54,14 @@ source ~/.bashrc
 # 2. Setup Python environment and packages
 setup/linux/setup_python_env.sh
 
-# 3. Download LLM models (~2.16 GB)
+# 3. Download LLM models (~2.16 GB) to ~/Documents/AI/
 setup/linux/download_models.sh
 
 # 4. Run application
 setup/linux/run_app.sh
 ```
+
+**LLM path:** `~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf`
 
 ### 📖 **Detailed Guide:** `setup/linux/SETUP_GUIDE.md`
 ### ⚡ **Quick Reference:** `setup/linux/QUICK_START.md`
@@ -90,12 +92,14 @@ setup\windows\auto_setup_windows.bat
 REM 2. Setup Python environment and packages
 setup\windows\setup_python_env_windows.bat
 
-REM 3. Download LLM models (~2.16 GB)
+REM 3. Download LLM models (~2.16 GB) to C:\AI\
 setup\windows\download_models_windows.bat
 
 REM 4. Run application
 setup\windows\run_app_windows.bat
 ```
+
+**LLM path:** `C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf`
 
 ### 📖 **Detailed Guide:** `setup/windows/WINDOWS_SETUP.md`
 ### ⚡ **Quick Reference:** `setup/windows/WINDOWS_QUICK_START.md`

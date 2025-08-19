@@ -25,7 +25,7 @@ echo 🔄 เปิดใช้งาน virtual environment...
 call llm_rag_env\Scripts\activate.bat
 
 REM ตรวจสอบ LLM model
-set MODEL_PATH=%USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf
+set MODEL_PATH=C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf
 if not exist "%MODEL_PATH%" (
     echo ❌ ไม่พบ LLM model ที่: %MODEL_PATH%
     echo    กรุณารัน download_models_windows.bat ก่อน

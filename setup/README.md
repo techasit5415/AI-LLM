@@ -79,12 +79,14 @@ setup\windows\auto_setup_windows.bat
 REM 2. Setup Python environment
 setup\windows\setup_python_env_windows.bat
 
-REM 3. Download models
+REM 3. Download models to C:\AI\
 setup\windows\download_models_windows.bat
 
 REM 4. Run application
 setup\windows\run_app_windows.bat
 ```
+
+**LLM จะถูกติดตั้งที่:** `C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf`
 
 ### Manual Setup:
 ```cmd
@@ -124,12 +126,14 @@ setup\windows\WINDOWS_QUICK_START.md
 cd LLM-RAG
 setup/linux/auto_setup.sh && source ~/.bashrc && setup/linux/setup_python_env.sh && setup/linux/download_models.sh && setup/linux/run_app.sh
 ```
+**LLM จะถูกติดตั้งที่:** `~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf`
 
 ### Windows:
 ```cmd
 cd LLM-RAG
 setup\windows\auto_setup_windows.bat && setup\windows\setup_python_env_windows.bat && setup\windows\download_models_windows.bat && setup\windows\run_app_windows.bat
 ```
+**LLM จะถูกติดตั้งที่:** `C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf`
 
 ---
 

@@ -1,22 +1,22 @@
 @echo off
 chcp 65001 >nul
 REM Model Download Script for Windows
-REM ดาวน์โหลด LLM models และ embedding models บน Windows
+REM ดาวน์โหลด LLM models และ embedding models ไปที่ C:\AI
 
 echo 📥 กำลังดาวน์โหลด models สำหรับ LLM-RAG บน Windows...
 
 REM สร้าง directories
-echo 📁 สร้าง model directories...
-if not exist "%USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF" (
-    mkdir "%USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF"
+echo 📁 สร้าง model directories ที่ C:\AI ...
+if not exist "C:\AI\llm\Llama-3.2-3B-Instruct-GGUF" (
+    mkdir "C:\AI\llm\Llama-3.2-3B-Instruct-GGUF"
 )
-if not exist "%USERPROFILE%\Documents\AI\embedding-models" (
-    mkdir "%USERPROFILE%\Documents\AI\embedding-models"
+if not exist "C:\AI\embedding-models" (
+    mkdir "C:\AI\embedding-models"
 )
 
 REM ดาวน์โหลด LLM model
 echo 🦙 ดาวน์โหลด Llama 3.2 3B Instruct GGUF...
-cd /d "%USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF"
+cd /d "C:\AI\llm\Llama-3.2-3B-Instruct-GGUF"
 
 if not exist "Llama-3.2-3B-Instruct-Q5_K_M.gguf" (
     echo ⬇️ กำลังดาวน์โหลด... (ขนาด ~2.16 GB)
@@ -44,7 +44,7 @@ if not exist "Llama-3.2-3B-Instruct-Q5_K_M.gguf" (
 
 REM ดาวน์โหลด embedding model (optional)
 echo 🔤 ดาวน์โหลด embedding model...
-cd /d "%USERPROFILE%\Documents\AI\embedding-models"
+cd /d "C:\AI\embedding-models"
 
 if not exist "all-MiniLM-L6-v2" (
     echo ⬇️ กำลังดาวน์โหลด sentence-transformers/all-MiniLM-L6-v2...
@@ -64,18 +64,18 @@ REM แสดงข้อมูล models ที่ดาวน์โหลด
 echo.
 echo 📊 ข้อมูล models ที่ดาวน์โหลด:
 echo LLM Model:
-dir "%USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF"
+dir "C:\AI\llm\Llama-3.2-3B-Instruct-GGUF"
 echo.
 echo Embedding Model:
-dir "%USERPROFILE%\Documents\AI\embedding-models"
+dir "C:\AI\embedding-models"
 
 echo.
 echo ✅ ดาวน์โหลด models เสร็จสิ้น!
 echo.
 echo 📋 ขั้นตอนต่อไป:
 echo 1. แก้ไข path ใน rag_chatbot.py:
-echo    LLM path: %USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf
-echo    Embedding path: %USERPROFILE%\Documents\AI\embedding-models\all-MiniLM-L6-v2
+echo    LLM path: C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf
+echo    Embedding path: C:\AI\embedding-models\all-MiniLM-L6-v2
 echo.
 echo 2. รัน application:
 echo    run_app_windows.bat

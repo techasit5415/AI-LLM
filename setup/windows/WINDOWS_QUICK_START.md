@@ -66,8 +66,8 @@ pip install llama-cpp-python==0.2.90 --no-cache-dir
 ### 3. ดาวน์โหลด Models
 ```cmd
 REM สร้างโฟลเดอร์
-mkdir %USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF
-cd %USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF
+mkdir C:\AI\llm\Llama-3.2-3B-Instruct-GGUF
+cd C:\AI\llm\Llama-3.2-3B-Instruct-GGUF
 
 REM ดาวน์โหลด LLM model
 curl -L -o Llama-3.2-3B-Instruct-Q5_K_M.gguf https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q5_K_M.gguf
@@ -82,7 +82,7 @@ curl -L -o Llama-3.2-3B-Instruct-Q5_K_M.gguf https://huggingface.co/bartowski/Ll
 llm_model = "/home/techasit/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf"
 
 # เปลี่ยนเป็น
-llm_model = r"C:\Users\{USERNAME}\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf"
+llm_model = r"C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf"
 ```
 
 **บรรทัด 20:**
@@ -91,7 +91,7 @@ llm_model = r"C:\Users\{USERNAME}\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF\Ll
 local_embed_path = "/home/techasit/Documents/AI/embedding-models/all-MiniLM-L6-v2"
 
 # เปลี่ยนเป็น
-local_embed_path = r"C:\Users\{USERNAME}\Documents\AI\embedding-models\all-MiniLM-L6-v2"
+local_embed_path = r"C:\AI\embedding-models\all-MiniLM-L6-v2"
 ```
 
 ### 5. รัน Application
@@ -140,7 +140,23 @@ conda install -c conda-forge llama-cpp-python
 REM ถ้า curl ไม่ทำงาน ใช้ PowerShell:
 powershell -Command "Invoke-WebRequest -Uri 'https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q5_K_M.gguf' -OutFile 'Llama-3.2-3B-Instruct-Q5_K_M.gguf'"
 
-REM หรือดาวน์โหลดผ่าน browser แล้ว copy มาใส่ folder
+REM หรือดาวน์โหลดผ่าน browser แล้ว copy มาใส่ folder: C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\
+```
+
+---
+
+## 📁 Model Paths for Windows
+
+### LLM Model:
+```
+Path: C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf
+Size: ~2.16 GB
+```
+
+### Embedding Model (Optional):
+```
+Path: C:\AI\embedding-models\all-MiniLM-L6-v2
+Size: ~90 MB
 ```
 
 ---

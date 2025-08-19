@@ -79,8 +79,8 @@ set CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.1
 #### 7. ดาวน์โหลด LLM Model
 ```cmd
 REM สร้างโฟลเดอร์สำหรับ models
-mkdir %USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF
-cd %USERPROFILE%\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF
+mkdir C:\AI\llm\Llama-3.2-3B-Instruct-GGUF
+cd C:\AI\llm\Llama-3.2-3B-Instruct-GGUF
 
 REM ดาวน์โหลด model (ใช้ browser หรือ wget for Windows)
 curl -L -o Llama-3.2-3B-Instruct-Q5_K_M.gguf https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q5_K_M.gguf
@@ -88,8 +88,8 @@ curl -L -o Llama-3.2-3B-Instruct-Q5_K_M.gguf https://huggingface.co/bartowski/Ll
 
 #### 8. เตรียม Embedding Model (Optional)
 ```cmd
-mkdir %USERPROFILE%\Documents\AI\embedding-models
-cd %USERPROFILE%\Documents\AI\embedding-models
+mkdir C:\AI\embedding-models
+cd C:\AI\embedding-models
 git clone https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
 ```
 
@@ -97,10 +97,10 @@ git clone https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
 แก้ไขไฟล์ `rag_chatbot.py` บรรทัด 46:
 ```python
 # เปลี่ยนจาก Linux path
-llm_model = r"C:\Users\{USERNAME}\Documents\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf"
+llm_model = r"C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf"
 
 # และแก้ไข embedding path ด้วย (บรรทัด 20)
-local_embed_path = r"C:\Users\{USERNAME}\Documents\AI\embedding-models\all-MiniLM-L6-v2"
+local_embed_path = r"C:\AI\embedding-models\all-MiniLM-L6-v2"
 ```
 
 #### 10. ทดสอบการติดตั้ง
@@ -171,3 +171,21 @@ wsl --install Ubuntu
 - **CPU:** ~2,500 tokens/second
 - **GPU:** ~3,800+ tokens/second
 - **Memory Usage:** ~4-6GB VRAM สำหรับ 3B model
+
+---
+
+## 📁 Model Paths สำหรับ Windows
+
+### LLM Model:
+```
+Path: C:\AI\llm\Llama-3.2-3B-Instruct-GGUF\Llama-3.2-3B-Instruct-Q5_K_M.gguf
+Size: ~2.16 GB
+URL: https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q5_K_M.gguf
+```
+
+### Embedding Model (Optional):
+```
+Path: C:\AI\embedding-models\all-MiniLM-L6-v2
+Size: ~90 MB
+URL: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+```

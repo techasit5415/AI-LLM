@@ -23,7 +23,11 @@ cd LLM-RAG
 ### 4. ปรับ Path ในโค้ด
 แก้ไขไฟล์ `rag_chatbot.py` บรรทัด 46:
 ```python
+# LLM path for Linux: 
 llm_model = "/home/YOUR_USERNAME/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf"
+
+# Embedding path:
+local_embed_path = "/home/YOUR_USERNAME/Documents/AI/embedding-models/all-MiniLM-L6-v2"
 ```
 
 ### 5. รัน Application
@@ -126,3 +130,21 @@ pip install --upgrade streamlit
 - **RTX 3060:** ~3500 tokens/second  
 - **GTX 1660:** ~3000 tokens/second
 - **CPU only:** ~2700 tokens/second
+
+---
+
+## 📁 Model Paths สำหรับ Linux
+
+### LLM Model:
+```
+Path: ~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf
+Full Path: /home/$(whoami)/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf
+Size: ~2.16 GB
+```
+
+### Embedding Model (Optional):
+```
+Path: ~/Documents/AI/embedding-models/all-MiniLM-L6-v2
+Full Path: /home/$(whoami)/Documents/AI/embedding-models/all-MiniLM-L6-v2
+Size: ~90 MB
+```
