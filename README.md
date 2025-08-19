@@ -130,11 +130,13 @@ setup\windows\setup_python_env_windows.bat
 REM 3. Download LLM models (~2.16 GB) to C:\AI\
 setup\windows\download_models_windows.bat
 
-REM 4. Run application
+REM 4. GPU CUDA FIX
+.\issue\setup_complete_gpu.bat
+
+REM 5. Run application
 setup\windows\run_app_windows.bat
 
-REM 5. GPU CUDA FIX
-.\issue\setup_complete_gpu.bat
+
 
 ```
 
