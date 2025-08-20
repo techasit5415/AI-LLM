@@ -30,7 +30,19 @@ cd ~/Documents/AI/embedding-models
 
 if [[ ! -d "all-MiniLM-L6-v2" ]]; then
     echo "⬇️ กำลังดาวน์โหลด sentence-transformers/all-MiniLM-L6-v2..."
-    git clone https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+    
+    # ติดตั้ง Git LFS ถ้ายังไม่มี
+    if ! command -v git-lfs &> /dev/null; then
+        echo "🔧 ติดตั้ง Git LFS..."
+        sudo apt update && sudo apt install -y git-lfs
+    fi
+    
+    # Clone และดาวน์โหลดไฟล์ขนาดใหญ่
+    git clone --depth 1 https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+    cd all-MiniLM-L6-v2
+    git lfs pull
+    cd ..
+    
     echo "✅ ดาวน์โหลด embedding model เสร็จแล้ว"
 else
     echo "ℹ️ Embedding model มีอยู่แล้ว"

@@ -47,14 +47,19 @@ pip install faiss-cpu==1.7.4
 pip install sentence-transformers==2.2.2
 pip install pypdf==3.17.4 python-docx==1.1.0
 pip install tiktoken==0.5.2
-pip install numpy==1.24.3 pandas==2.0.3
+pip install "numpy>=1.25.2,<2.0" pandas==2.0.3
 pip install requests==2.31.0 beautifulsoup4==4.12.2 lxml==4.9.3
 pip install Pillow==10.1.0 python-dotenv==1.0.0
 
 # ติดตั้ง llama-cpp-python พร้อม CUDA support
 echo "🦙 ติดตั้ง llama-cpp-python พร้อม CUDA support..."
 pip uninstall -y llama-cpp-python || true
-CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python==0.2.90 --no-cache-dir
+
+# แก้ไข compatibility packages สำหรับ Linux
+echo "🔧 แก้ไข package compatibility..."
+pip install "huggingface-hub>=0.19.0" --quiet
+
+CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python==0.2.90 --no-cache-dir
 
 echo "✅ Python environment setup เสร็จสิ้น!"
 echo ""

@@ -66,7 +66,7 @@ pip install numpy pandas torch torchvision torchaudio
 pip install requests beautifulsoup4 lxml Pillow python-dotenv
 
 # ติดตั้ง llama-cpp-python พร้อม CUDA support
-CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python==0.2.90
+CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python==0.2.90
 ```
 
 #### 5. เตรียม Environment Variables
@@ -126,7 +126,7 @@ streamlit run rag_chatbot.py
 #### หาก llama-cpp-python ไม่รู้จัก CUDA:
 ```bash
 pip uninstall llama-cpp-python
-CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python --no-cache-dir
+CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python --no-cache-dir
 ```
 
 #### หาก CUDA ไม่ทำงาน:

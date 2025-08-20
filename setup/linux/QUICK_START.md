@@ -1,5 +1,34 @@
 # Quick Start Guide
-# คู่มือติดตั้งด่วนสำหรับเครื่องใหม่
+# คู่มือติดตั้งด่วนสำหรับเครื่องใหม่ - รันได้เลย
+
+## ขั้นตอนติดตั้งแบบด่วน (รันได้เลย)
+
+### เครื่องที่มี CUDA แล้ว:
+```bash
+# 1. ติดตั้ง dependencies แบบ one-shot
+sudo apt update && sudo apt install -y git git-lfs python3-venv python3-dev build-essential cmake
+
+# 2. Clone และ setup
+git clone https://github.com/techasit5415/AI-LLM.git
+cd AI-LLM
+chmod +x setup/linux/*.sh
+
+# 3. ติดตั้งทุกอย่างแบบอัตโนมัติ
+./setup/linux/auto_setup.sh
+./setup/linux/setup_python_env.sh  
+./setup/linux/download_models.sh
+
+# 4. รัน app
+./setup/linux/run_app.sh
+```
+
+### หากเจอปัญหา Vector Store:
+```bash
+# แก้ไขปัญหา KeyError: '__fields_set__'
+./setup/linux/fix_vector_store.sh
+```
+
+---
 
 ## ขั้นตอนติดตั้งแบบละเอียด (Full Setup)
 
@@ -52,7 +81,7 @@ source llm_rag_env/bin/activate
 
 # 3. ติดตั้ง packages
 pip install -r requirements.txt
-CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python==0.2.90
+CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python==0.2.90
 
 # 4. ดาวน์โหลด model
 ./download_models.sh
@@ -108,7 +137,7 @@ export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 ### ปัญหา llama-cpp-python:
 ```bash
 pip uninstall llama-cpp-python
-CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python --no-cache-dir
+CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python --no-cache-dir
 ```
 
 ### ปัญหา Streamlit:

@@ -26,7 +26,7 @@ sudo apt update
 
 # CUDA และ build tools
 echo "🔧 ติดตั้ง CUDA และ build tools..."
-sudo apt install -y nvidia-cuda-toolkit build-essential cmake git wget curl
+sudo apt install -y nvidia-cuda-toolkit build-essential cmake git wget curl git-lfs
 
 # Python development
 echo "🐍 ติดตั้ง Python development tools..."
@@ -86,7 +86,7 @@ echo "1. รัน: source ~/.bashrc"
 echo "2. สร้าง virtual environment: python3 -m venv llm_rag_env"
 echo "3. เปิดใช้งาน: source llm_rag_env/bin/activate"
 echo "4. ติดตั้ง Python packages: pip install -r requirements.txt"
-echo "5. ติดตั้ง llama-cpp-python พร้อม CUDA: CMAKE_ARGS=\"-DLLAMA_CUBLAS=on\" pip install llama-cpp-python==0.2.90"
+echo "5. ติดตั้ง llama-cpp-python พร้อม CUDA: CMAKE_ARGS=\"-DGGML_CUDA=on\" pip install llama-cpp-python==0.2.90"
 echo "6. ดาวน์โหลด LLM model (ดูใน SETUP_GUIDE.md)"
 echo "7. รัน: streamlit run rag_chatbot.py"
 echo ""

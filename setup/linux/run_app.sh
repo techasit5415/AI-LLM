@@ -5,15 +5,20 @@
 
 echo "🚀 เริ่มต้น LLM-RAG Chatbot บน Linux..."
 
+# เปลี่ยนไปยัง project directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+cd "$PROJECT_DIR"
+
 # ตรวจสอบว่าอยู่ใน project directory
-if [[ ! -f "../../rag_chatbot.py" ]]; then
-    echo "❌ ไม่พบไฟล์ rag_chatbot.py"
-    echo "   กรุณา cd เข้าไปใน LLM-RAG directory ก่อน"
+if [[ ! -f "rag_chatbot.py" ]]; then
+    echo "❌ ไม่พบไฟล์ rag_chatbot.py ใน $PROJECT_DIR"
+    echo "   กรุณาตรวจสอบ path ของโปรเจ็กต์"
     exit 1
 fi
 
 # ตรวจสอบ virtual environment
-if [[ ! -d "../../llm_rag_env" ]]; then
+if [[ ! -d "llm_rag_env" ]]; then
     echo "❌ ไม่พบ virtual environment"
     echo "   กรุณารัน setup/linux/setup_python_env.sh ก่อน"
     exit 1
@@ -21,7 +26,6 @@ fi
 
 # เปิดใช้งาน virtual environment
 echo "🔄 เปิดใช้งาน virtual environment..."
-cd ../../
 source llm_rag_env/bin/activate
 
 # ตรวจสอบ LLM model
