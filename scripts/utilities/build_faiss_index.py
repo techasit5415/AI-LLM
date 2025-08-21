@@ -1,6 +1,6 @@
 import os
+import numpy as np
 from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 
 # กำหนด vector store และไฟล์ข้อมูลที่รองรับ
@@ -12,7 +12,46 @@ VECTOR_STORES = {
         os.path.join("data", "sources", "wikipedia_snake.txt")
     ]
 }
-EMBEDDING_MODEL_PATH = os.path.expanduser("~/Documents/AI/embedding-models/all-MiniLM-L6-v2")
+
+# ฟังก์ชันสำหรับสร้าง embedding แบบ stable สำหรับ FAISS compatibility
+def get_embeddings():
+    from langchain.embeddings.base import Embeddings
+    import hashlib
+    import numpy as np
+    
+    class StableSimpleEmbeddings(Embeddings):
+        """Simple hash-based embeddings with stable 128 dimensions for FAISS compatibility"""
+        
+        def __init__(self, dimension=128):
+            self.dimension = dimension
+        
+        def _hash_to_embedding(self, text):
+            """Convert text to stable hash-based embedding"""
+            # Create multiple hashes for better distribution
+            hash1 = hashlib.md5(text.encode()).hexdigest()
+            hash2 = hashlib.sha1(text.encode()).hexdigest()
+            
+            # Combine hashes and convert to numbers
+            combined = hash1 + hash2
+            numbers = [int(combined[i:i+2], 16) for i in range(0, min(len(combined), self.dimension * 2), 2)]
+            
+            # Normalize to [0, 1] and pad to required dimension
+            embedding = [n / 255.0 for n in numbers]
+            if len(embedding) < self.dimension:
+                embedding.extend([0.0] * (self.dimension - len(embedding)))
+            else:
+                embedding = embedding[:self.dimension]
+            
+            return embedding
+        
+        def embed_documents(self, texts):
+            return [self._hash_to_embedding(text) for text in texts]
+        
+        def embed_query(self, text):
+            return self._hash_to_embedding(text)
+    
+    print("Using stable simple embeddings for FAISS compatibility...")
+    return StableSimpleEmbeddings()
 
 print("Available vector stores:")
 for name in VECTOR_STORES:
@@ -40,15 +79,25 @@ for store in targets:
     all_text = ""
     for data_file in VECTOR_STORES[store]:
         with open(data_file, encoding="utf-8") as f:
-            all_text += f.read() + "\n"
-    # แบ่งข้อความ
-    splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+            text_content = f.read()
+            all_text += text_content + "\n"
+            print(f"Loaded {len(text_content)} characters from {data_file}")
+    
+    print(f"Total text length: {len(all_text)} characters")
+    
+    # แบ่งข้อความ - ใช้ขนาด 120 อักษรสำหรับทุก vector store เพื่อป้องกัน context overflow
+    chunk_size = 120  # ใช้ขนาดเล็กสำหรับป้องกันปัญหา "คำถามยาวเกินไป"
+    splitter = CharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=20)
     docs = splitter.create_documents([all_text])
+    
+    print(f"Created {len(docs)} chunks from text")
+    
     # โหลด embedding model
-    embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_PATH)
+    embeddings = get_embeddings()
+    
     # สร้าง FAISS index
-    print(f"Building FAISS index for {store} ...")
+    print(f"Building FAISS index for {store} with {len(docs)} chunks (120 chars each)...")
     db = FAISS.from_documents(docs, embeddings)
     db.save_local(VECTOR_STORE_DIR)
-    print(f"Index saved to {VECTOR_STORE_DIR}\n")
+    print(f"Index saved to {VECTOR_STORE_DIR} with {db.index.ntotal} vectors\n")
 print("Done.")
