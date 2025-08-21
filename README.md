@@ -166,6 +166,42 @@ python scripts\testing\check_llama_cuda.py
 
 ## 🎯 Usage
 
+### 📚 First Time Setup - Create Vector Stores
+
+Before using the chatbot, you need to create vector stores from your documents:
+
+#### Linux/Mac:
+```bash
+# Interactive menu to create vector stores
+./scripts/utilities/build_faiss_index.sh
+
+# Choose from:
+# 1) Snake Vector Store only
+# 2) Naruto Vector Store only  
+# 3) Naruto + Snake Vector Store (combined)
+# 4) Create All vector stores
+```
+
+#### Windows:
+```cmd
+# Interactive menu to create vector stores
+scripts\utilities\build_faiss_index.bat
+
+# Same options as Linux version
+```
+
+#### Manual Creation (Alternative):
+```bash
+# Individual vector stores
+python scripts/utilities/rebuild_snake_vector_final.py
+python scripts/utilities/rebuild_naruto_vector_final.py
+python scripts/utilities/rebuild_naruto_snake_vector_final.py
+```
+
+**Note:** Vector stores use 120-character chunks and 128-dimension embeddings for optimal performance. Files are saved to `data/embeddings/vector store/` and excluded from Git.
+
+### 🚀 Running the Application
+
 1. **เปิด browser** ไปที่ `http://localhost:8501`
 2. **กด "Create chatbot"** เพื่อโหลดโมเดล
 3. **เลือก Vector Store** (naruto, snake, หรือ naruto_snake)
@@ -182,13 +218,27 @@ python scripts\testing\check_llama_cuda.py
 - **Speed ~10 tokens/sec:** CPU only
 
 ### 🔧 Utilities Available:
-```cmd
-REM Rebuild vector stores
-python scripts\utilities\build_faiss_index.py
+```bash
+# Linux/Mac - Build vector stores (Interactive menu)
+./scripts/utilities/build_faiss_index.sh
 
-REM Fix FAISS compatibility issues  
-python scripts\utilities\fix_faiss_compatibility.py
+# Windows - Build vector stores (Interactive menu)  
+scripts\utilities\build_faiss_index.bat
+
+# Manual individual builds
+python scripts/utilities/rebuild_snake_vector_final.py
+python scripts/utilities/rebuild_naruto_vector_final.py
+python scripts/utilities/rebuild_naruto_snake_vector_final.py
+
+# Fix FAISS compatibility issues (if needed)
+python scripts/utilities/fix_faiss_compatibility.py
 ```
+
+**Vector Store Info:**
+- **Chunk Size:** 120 characters (optimized for context window)
+- **Embedding Dimensions:** 128 (FAISS compatible)
+- **Storage:** `data/embeddings/vector store/`
+- **Git Status:** Excluded (.faiss and .pkl files ignored)
 
 ---
 

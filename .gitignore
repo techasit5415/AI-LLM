@@ -61,6 +61,12 @@ embedding-models/
 # vector store/
 # Uncomment above line if vector stores are too large
 
+# FAISS vector index files
+*.faiss
+*.pkl
+index.faiss
+index.pkl
+
 # Data files (optional - depends on licensing)
 # data sources/*.pdf
 # data sources/*.txt
