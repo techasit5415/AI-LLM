@@ -2,7 +2,15 @@ import time
 import os
 from llama_cpp import Llama
 
-MODEL_PATH = os.path.expanduser("~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf")  # ใช้ expanduser แทน hardcode path
+import platform
+
+# กำหนด path ให้รองรับทั้ง Windows และ Linux/macOS
+HOME = os.path.expanduser("~")
+if platform.system() == "Windows":
+	# ตัวอย่าง path สำหรับ Windows (ปรับตามที่เก็บไฟล์จริง)
+	MODEL_PATH = os.path.join(HOME, "Documents", "AI", "llm", "Llama-3.2-3B-Instruct-GGUF", "Llama-3.2-3B-Instruct-Q5_K_M.gguf")
+else:
+	MODEL_PATH = os.path.join(HOME, "Documents", "AI", "llm", "Llama-3.2-3B-Instruct-GGUF", "Llama-3.2-3B-Instruct-Q5_K_M.gguf")
 PROMPT = "Tell me a joke about AI."
 N_TOKENS = 64
 

@@ -75,9 +75,22 @@ pip install https://github.com/abetlen/llama-cpp-python/releases/download/v0.2.9
 
 ### สำหรับ Users
 1. รัน `setup_complete_gpu.bat` เพื่อติดตั้งแบบ automated
-2. ใช้ `validate_gpu_setup.py` เพื่อตรวจสอบการติดตั้ง
-3. รัน `test_gpu.py` เพื่อ performance testing
-4. หากมีปัญหา ดู `./issue/LLAMA_CPP_PYTHON_TROUBLESHOOTING.md`
+2. ใช้ `scripts/testing/validate_gpu_setup.py` เพื่อตรวจสอบการติดตั้ง
+3. รัน `scripts/testing/test_gpu.py` เพื่อ performance testing
+4. ใช้ `scripts/testing/run_test_scripts.bat` (Windows) หรือ `.sh` (Linux/macOS) เพื่อรันหลาย tests
+5. หากมีปัญหา ดู `docs/troubleshooting/LLAMA_CPP_PYTHON_TROUBLESHOOTING.md`
+
+### สำหรับ Testing
+```bash
+# รัน test script แบบเลือกเมนู
+./scripts/testing/run_test_scripts.sh
+
+# หรือรันแต่ละ test
+python3 scripts/testing/benchmark_llama_cpp.py
+python3 scripts/testing/check_llama_cuda.py
+python3 scripts/testing/test_gpu.py
+python3 scripts/testing/validate_gpu_setup.py
+```
 
 ### สำหรับ Maintenance
 - อัปเดต wheel version เมื่อมีเวอร์ชั่นใหม่

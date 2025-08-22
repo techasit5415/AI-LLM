@@ -76,14 +76,25 @@ def test_model_loading():
     """ทดสอบการโหลดโมเดลแบบง่าย"""
     print_header("Model Loading Test")
     
-    # หาโมเดลในระบบ
+    # หาโมเดลในระบบ รองรับทั้ง Windows และ Linux/macOS
     import os
-    possible_models = [
-        "models/llama-2-7b-chat.Q4_K_M.gguf",
-        "models/Llama-2-7b-Chat-GGUF/llama-2-7b-chat.Q4_K_M.gguf",
-        "../models/llama-2-7b-chat.Q4_K_M.gguf"
-    ]
-    
+    import platform
+    HOME = os.path.expanduser("~")
+    if platform.system() == "Windows":
+        possible_models = [
+            os.path.join(HOME, "Documents", "AI", "llm", "Llama-3.2-3B-Instruct-GGUF", "Llama-3.2-3B-Instruct-Q5_K_M.gguf"),
+            os.path.join("models", "llama-2-7b-chat.Q4_K_M.gguf"),
+            os.path.join("models", "Llama-2-7b-Chat-GGUF", "llama-2-7b-chat.Q4_K_M.gguf"),
+            os.path.join("..", "models", "llama-2-7b-chat.Q4_K_M.gguf")
+        ]
+    else:
+        possible_models = [
+            os.path.join(HOME, "Documents", "AI", "llm", "Llama-3.2-3B-Instruct-GGUF", "Llama-3.2-3B-Instruct-Q5_K_M.gguf"),
+            os.path.join("models", "llama-2-7b-chat.Q4_K_M.gguf"),
+            os.path.join("models", "Llama-2-7b-Chat-GGUF", "llama-2-7b-chat.Q4_K_M.gguf"),
+            os.path.join("..", "models", "llama-2-7b-chat.Q4_K_M.gguf")
+        ]
+
     model_path = None
     for path in possible_models:
         if os.path.exists(path):

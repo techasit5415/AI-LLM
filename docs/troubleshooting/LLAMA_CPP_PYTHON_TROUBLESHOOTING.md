@@ -176,16 +176,30 @@ pip install streamlit langchain langchain-community faiss-cpu sentence-transform
 
 ### ทดสอบ llama-cpp-python:
 ```cmd
+python scripts/testing/benchmark_llama_cpp.py
+# หรือ
 python -c "from llama_cpp import Llama; print('✅ llama-cpp-python ทำงานได้')"
 ```
 
 ### ทดสอบ CUDA support:
-```python
-import torch
-print(f"CUDA available: {torch.cuda.is_available()}")
-print(f"CUDA device count: {torch.cuda.device_count()}")
-if torch.cuda.is_available():
-    print(f"CUDA device: {torch.cuda.get_device_name(0)}")
+```cmd
+python scripts/testing/check_llama_cuda.py
+# หรือ
+python scripts/testing/validate_gpu_setup.py
+```
+
+### ทดสอบ GPU detection:
+```cmd
+python scripts/testing/test_gpu.py
+```
+
+### รันทุก tests:
+```cmd
+# Windows
+.\scripts\testing\run_test_scripts.bat
+
+# Linux/macOS  
+./scripts/testing/run_test_scripts.sh
 ```
 
 ### ตรวจสอบ GPU usage:

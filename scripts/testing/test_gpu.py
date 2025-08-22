@@ -17,7 +17,13 @@ except:
 
 # Test loading model with GPU
 # ปรับ path ให้ใช้ expanduser สำหรับความยืดหยุ่น
-model_path = os.path.expanduser("~/Documents/AI/llm/Llama-3.2-3B-Instruct-GGUF/Llama-3.2-3B-Instruct-Q5_K_M.gguf")
+import platform
+# รองรับทั้ง Windows และ Linux/macOS
+HOME = os.path.expanduser("~")
+if platform.system() == "Windows":
+    model_path = os.path.join(HOME, "Documents", "AI", "llm", "Llama-3.2-3B-Instruct-GGUF", "Llama-3.2-3B-Instruct-Q5_K_M.gguf")
+else:
+    model_path = os.path.join(HOME, "Documents", "AI", "llm", "Llama-3.2-3B-Instruct-GGUF", "Llama-3.2-3B-Instruct-Q5_K_M.gguf")
 if os.path.exists(model_path):
     print(f"✅ Model file found: {model_path}")
     
