@@ -1,4 +1,33 @@
 import os
+import subprocess
+import sys
+
+def install_required_packages():
+    """ติดตั้ง Python packages ที่จำเป็น"""
+    required_packages = [
+        "langchain>=0.1.0",
+        "langchain-community>=0.0.10", 
+        "faiss-cpu>=1.7.4",
+        "transformers>=4.35.0",
+        "sentence-transformers>=2.2.2",
+        "numpy>=1.24.3",
+        "torch>=2.1.0"
+    ]
+    
+    print("📦 ตรวจสอบและติดตั้ง Python libraries ที่จำเป็น...")
+    
+    for package in required_packages:
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+        except subprocess.CalledProcessError as e:
+            print(f"⚠️  Warning: Failed to install {package}: {e}")
+    
+    print("✅ Libraries ติดตั้งเรียบร้อยแล้ว!")
+    print()
+
+# ติดตั้ง packages ก่อนเริ่มทำงาน
+install_required_packages()
+
 import numpy as np
 from langchain_community.vectorstores import FAISS
 from langchain.text_splitter import CharacterTextSplitter

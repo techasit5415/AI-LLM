@@ -119,6 +119,23 @@ node_modules/
 *.lock
 poetry.lock  # Remove this line if you want to commit poetry.lock
 
+# Version-specific files and directories
+**/[0-9]*.[0-9]*.[0-9]*/
+**/v[0-9]*.[0-9]*.[0-9]*/
+**/*-[0-9]*.[0-9]*.[0-9]*/
+**/*_[0-9]*.[0-9]*.[0-9]*/
+**/*.[0-9]*.[0-9]*.[0-9]/
+**/*-v[0-9]*.[0-9]*.[0-9]/
+version-[0-9]*.[0-9]*.[0-9]/
+**/version[0-9]*.[0-9]*.[0-9]/
+
+# Pip cache and version-specific directories
+pip-[0-9]*.[0-9]*.[0-9]/
+**/site-packages/*/METADATA
+**/site-packages/*/PKG-INFO
+**/site-packages/*-[0-9]*.[0-9]*.[0-9]*.dist-info/
+**/site-packages/*-[0-9]*.[0-9]*.[0-9]*.egg-info/
+
 # Build artifacts
 *.deb
 *.rpm

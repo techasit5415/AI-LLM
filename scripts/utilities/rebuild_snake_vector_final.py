@@ -5,7 +5,11 @@
 
 import os
 import sys
-sys.path.append('/home/techasit/Documents/Test/AI-LLM')
+
+# Get the project root directory (2 levels up from this script)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(script_dir))
+sys.path.append(project_root)
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
@@ -34,8 +38,8 @@ class CompatibleEmbeddings(Embeddings):
 
 def main():
     try:
-        # อ่านไฟล์ snake data
-        snake_file = "/home/techasit/Documents/Test/AI-LLM/data/sources/wikipedia_snake.txt"
+        # อ่านไฟล์ snake data - ใช้ path ที่เป็น cross-platform
+        snake_file = os.path.join(project_root, "data", "sources", "wikipedia_snake.txt")
         print(f"Reading file: {snake_file}")
         
         with open(snake_file, 'r', encoding='utf-8') as f:
@@ -68,7 +72,7 @@ def main():
         db = FAISS.from_documents(splits, embeddings)
         
         # ลบไฟล์เก่า
-        output_path = "/home/techasit/Documents/Test/AI-LLM/data/embeddings/vector store/snake"
+        output_path = os.path.join(project_root, "data", "embeddings", "vector store", "snake")
         os.makedirs(output_path, exist_ok=True)
         
         for fname in ["index.faiss", "index.pkl"]:
@@ -92,7 +96,7 @@ def main():
         
         # ทดสอบโหลด
         try:
-            test_db = FAISS.load_local(output_path, test_embeddings)
+            test_db = FAISS.load_local(output_path, test_embeddings, allow_dangerous_deserialization=True)
             print("✅ Successfully loaded vector store")
             
             # ทดสอบค้นหา
